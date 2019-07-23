@@ -1,0 +1,83 @@
+class MyArrayList{
+	private int []array;
+	private int size;
+	public MyArrayList(){
+		array=new int[2];//长度为2的顺序表
+		size=0;//实际元素个数为0
+	}//MyArrayList的构造方法
+		
+	public void popFront(int element){
+		ensureCapacity();
+		for(int i=size;i>=1;i--){
+			array[i]=array[i-1];
+		}
+		array[0]=element;
+		size++;
+	}//头插
+	public void pushback(int element){
+		ensureCapacity();
+		array[size]=element;
+		size++;
+	}//尾插
+	public void insert(int index,int element){
+		ensureCapacity();
+
+		for(int i=size;i>=index+1;i--){
+			array[i]=array[i-1];
+		}
+		array[index]=element;
+		size++;
+	}//在指定下标插入
+	public  void push(){
+		array[--size]=0;
+	}//尾删
+	public void pop(){
+		for(int i=0;i<=size-2;i++)
+		{
+			array[i]=array[i+1];
+		}
+		array[--size]=0;
+	}//头删
+	public void earse(int index){
+		for(int i=index;i<=size-2;i++)
+		{
+			array[i]=array[i+1];
+		}
+		array[--size]=0;
+	}//删除指定下标
+	public void print(){
+		for(int i=0;i<size;i++){
+			System.out.println(array[i]);
+		}
+	}//打印数组
+	public void ensureCapacity(){
+		if(size<array.length)
+			return ;
+		int newCapacity=array.length*2;
+		int[]newArray=new int[newCapacity];
+		for(int i=0;i<size;i++)
+		{
+			newArray[i]=array[i];
+		}
+		this.array=newArray;
+		
+	}//当数组容量不足时。进行扩容，一般扩容2倍
+	
+}
+public class LianXi{
+	public static void main(String[] args){
+		MyArrayList arr=new MyArrayList();
+		arr.print();
+		arr.pushback(1);
+		arr.pushback(2);
+		arr.pushback(3);
+		arr.popFront(10);
+		arr.popFront(20);
+		arr.popFront(30);//30 20 10 1 2 3
+		arr.print();
+		arr.insert(3,11);//30 20 10 11 1 2 3
+		arr.print();
+		arr.earse(2);
+		arr.print();//30 20 11 2 3 
+    }
+}
