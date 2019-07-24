@@ -1,0 +1,28 @@
+public class Ti{
+	public static void main(String[] args){
+		public int a=12;
+		public int b=18;
+		public int min=a>b?b:a;
+		public int dex=0;
+		while(dex<min){
+			for(int i=0;i<min;i++){
+				if((i%a==0)&&(i%b==0)){
+				dex=i;
+				}
+			}
+		}
+		System.out.println(dex);
+				
+	}
+}
+public class Ti{
+	public static void main(String[] args){
+	int a=10;
+	int b=20;
+	int p=a;
+	a=b;
+	b=p;
+	System.out.println(a);
+ 	System.out.println(b);
+	}
+}//交换两个整形变量的值	
