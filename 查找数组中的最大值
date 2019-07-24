@@ -1,0 +1,22 @@
+class person{
+	private int c;
+	public person(int c){
+		this.c=c;
+		}
+}
+public class Ti{
+	public static void main(String[]args){
+		int [] a=new int []{1,2,3,4,5,6,7,8,9,10};
+		int max=a[0];
+		for(int i=1;i<a.length;i++){
+			if(max<a[i]){
+				int p=max;
+				max=a[i];
+				a[i]=p;
+			}
+		}
+		System.out.println(max);
+	
+		
+	}
+}//查找数组中的最大值
