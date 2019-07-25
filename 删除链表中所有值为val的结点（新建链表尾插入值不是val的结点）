@@ -1,0 +1,27 @@
+class Solution {
+    public ListNode removeElements(ListNode head, int val) {
+        ListNode result = null;
+        ListNode cur = head;
+		ListNode last=null;//用来记录当前链表的最后一个结点
+        while (cur != null) {
+            if (cur.val == val) {
+                cur=cur.next;
+                continue;//结束本次循环
+            }
+            else
+            {
+				ListNode next=cur.next;
+				cur.next=null;
+				if(result==null){//进行尾插时考虑链表是否为空
+					result=cur;
+				}
+				else{
+					last=last.next;//查找最后一个结点
+				}
+				last=cur;
+				cur=next;
+			}
+		}
+			return result;
+	}
+}
