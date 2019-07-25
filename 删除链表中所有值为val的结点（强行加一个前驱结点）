@@ -1,0 +1,20 @@
+class Solution {
+    public ListNode removeElements(ListNode head, int val) {
+        ListNode tmpHead = new ListNode(-1);//强行加一个前驱结点
+        tmpHead.next = head;
+        ListNode prev = tmpHead;
+        ListNode cur = head;
+        
+        while (cur != null) {
+            if (cur.val == val) {
+                prev.next = cur.next;
+            } else {
+                prev = cur;
+            }
+            
+            cur = cur.next;
+        }
+        
+        return tmpHead.next;
+    }
+}
