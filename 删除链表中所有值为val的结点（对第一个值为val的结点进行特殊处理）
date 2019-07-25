@@ -1,0 +1,29 @@
+class Solution {
+    public ListNode removeElements(ListNode head, int val) {
+        ListNode prev = null;
+        ListNode cur = head;
+        while (cur != null)	
+        {
+            if (cur.val == val)
+            {
+                if (cur == head) 
+                {
+                    head = cur.next;
+                    cur = cur.next;
+                }
+                else
+                {
+                    prev.next = cur.next;
+		                cur = cur.next;
+                }
+            } 
+            else 
+            {
+            prev = cur;
+            cur = cur.next;
+            }
+        }
+        
+        return head;
+    }
+}
