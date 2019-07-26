@@ -1,0 +1,38 @@
+public class Solution {
+    public ListNode deleteDuplication(ListNode pHead)
+    {
+		if (pHead == null) {
+			return null;
+		}//空链表返回空
+		
+		ListNode prev = null;
+        ListNode p1 = pHead;
+        ListNode p2 = pHead.next;//定义三个引用来进行移动
+        
+        while (p2 != null) {
+            if (p1.val != p2.val) {
+                prev = p1;
+                p1 = p2;
+                p2 = p2.next;//p1与p2的值不相等是，三个引用均进行移动
+            } else {
+                while (p2 != null && p2.val == p1.val) {
+                    p2 = p2.next;
+                }//顺序查找链表，知道找到第一个与p1不同的点（可能有两种情况：p2走到了最后/找到p1与p2的值不相同）
+                
+                if (prev == null) {
+                    pHead = p2;
+                } else {
+                    prev.next = p2;
+                }
+                p1 = p2;//p2走到了最后，即链表中每个结点值都相同
+                if (p2 != null) {
+                    p2 = p2.next;
+               }//p1与p2值不相同了
+            }
+        }
+            
+        return pHead;
+    }
+}
+
+  
