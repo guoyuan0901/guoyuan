@@ -1,0 +1,49 @@
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode(int x) { val = x; }
+ * }
+ */
+class Solution {
+    public ListNode partition(ListNode head, int x) {
+        ListNode small=null;
+	    ListNode big=null;
+	    ListNode cur=head;
+		ListNode lasts=null;//小于x的链表中目前的最后一个结点
+		ListNode lastb=null;//大于等于x的链表中目前的最后一个结点
+
+		while(cur!=null){
+			if(cur.val<x){
+				ListNode next=cur.next;
+				if(small==null){
+					small=cur;
+				}
+				else
+					lasts.next=cur;
+				lasts=cur;
+				cur=next;
+			}
+			else{
+				ListNode next=cur.next;
+				if(big==null){
+					big=cur;
+				}
+				else
+					lastb.next=cur;
+				lastb=cur;
+				cur=next;
+			}
+		}
+		if(lasts==null)
+			return big;
+		else if(lastb==null)
+			return small;
+		else
+        {
+			lasts.next=big;
+            lastb.next=null;
+        }
+		return small;
+	}
+}
