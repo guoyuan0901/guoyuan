@@ -1,0 +1,25 @@
+（1）public class Solution {
+    public ListNode FindKthToTail(ListNode head,int k) {
+		ListNode fast=head;
+		ListNode slow=head;
+		while(fast!=null)
+		{
+			fast=fast.next;
+			if(fast==null)
+				break;//结点数为奇数时fast运行一步就指向了null
+			slow=slow.next;
+			fast=fast.next;
+		}
+		return slow;
+	}
+}
+(2)）public class Solution {
+    public ListNode FindKthToTail(ListNode head,int k) {
+		int len=0;
+		for(ListNode cur=head;cur!=null;cur=cur.next)
+			len++;//遍历计算结点数
+		ListNode node=head;
+			for(int i=0;i<len/2;i++)
+				node=node.next;//node指向中间结点
+	}
+}
