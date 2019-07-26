@@ -1,0 +1,41 @@
+public class PalindromeList {
+    public ListNode getMid(ListNode head){
+        ListNode fast=head;
+        ListNode slow=head;
+        while(fast!=null){
+            fast=fast.next;
+            if(fast==null)
+                break;//若链表数为奇数时，fast走一步就置为了空，而slow刚好指向了中间结点
+            slow=slow.next;
+            fast=fast.next;
+        }
+        return slow;
+    }//获取中间元素
+    public ListNode reverse(ListNode head)
+    {
+        ListNode result=null;
+        ListNode cur=head;
+        while(cur!=null)
+        {
+            ListNode next=cur.next;
+            cur.next=result;
+            result=cur;
+            cur=next;//头插
+        }
+        return result;
+    }//将A链表进行逆置
+    public boolean chkPalindrome(ListNode A) {
+        ListNode mid=getMid(A);
+        ListNode rev=reverse(A);
+        ListNode n1=A;//n1指向原链表的头结点
+        ListNode n2=rev;//n2指向逆置后的链表头结点
+        while(n1!=null&&n2!=null)
+        {
+            if(n1.val!=n2.val)
+                return false;
+            n1=n1.next;
+            n2=n2.next;
+        }
+        return true;
+    }
+}
