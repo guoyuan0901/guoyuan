@@ -1,17 +1,17 @@
-public class Solution {
+（1）public class Solution {
     public ListNode FindKthToTail(ListNode head,int k) {
         int count=0;
         for(ListNode cur=head;cur!=null;cur=cur.next)
         {
             count++;   
-        }
+        }//计算结点个数
         if(count>=k)
         {
             ListNode cur=head;
             for(int i=0;i<(count-k);i++)
             {
                 cur=cur.next;
-            }
+            }//让cur指向倒数第k个结点
         return cur;
         }
         else
@@ -19,3 +19,21 @@ public class Solution {
 
     }
 }
+（2）public class Solution {
+    public ListNode FindKthToTail(ListNode head,int k) {
+		ListNode front=head;
+		ListNode back=head;
+		for(int i=0;i<k;i++){
+			if(front==null)
+				return null;//代表结点数小于k
+			front=front.next;
+		}//运行完之后front指向正数第k个结点
+		while(front!=null){
+			back=back.next;
+			front=front.next;
+		}//运行count-k次
+		}
+		return slow;
+	}
+}
+
