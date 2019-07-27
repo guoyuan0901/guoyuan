@@ -1,0 +1,26 @@
+public class Solution {
+    public ListNode detectCycle(ListNode head) {
+         ListNode fast=head;
+        ListNode slow=head;
+        do{
+            if(fast==null)
+            {
+               return null;//空链表
+            }
+            fast=fast.next;
+            if(fast==null)
+                return null;//无环链表
+            slow=slow.next;
+            fast=fast.next;
+        }while(fast!=slow);//知道他两相等，代表相遇，即有环
+        ListNode p=head;//p从头出发
+        ListNode q=slow;//q从相遇结点出发
+        while(p!=q)
+        {
+            p=p.next;
+            q=q.next;
+        }
+        return p;
+        
+    }
+}
