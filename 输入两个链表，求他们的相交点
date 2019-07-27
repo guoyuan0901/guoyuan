@@ -1,0 +1,32 @@
+public class Solution {
+    private int getLength(ListNode head){
+        int len=0;
+        for(ListNode cur=head;cur!=null;cur=cur.next)
+        {
+            len++;
+        }
+        return len;
+    }//遍历求结点数
+    public ListNode getIntersectionNode(ListNode headA, ListNode headB) {
+        int lena=getLength(headA);//链表a的结点数
+        int lenb=getLength(headB);//链表b的结点数
+        int diff=lena-lenb;//结点数差
+        ListNode longer=headA;
+        ListNode shorter=headB;
+        if(lena<lenb)
+        {
+            longer=headB;
+            shorter=headA;
+            diff=lenb-lena;
+        }
+        for(int i=0;i<diff;i++)
+            longer=longer.next;//结点数大的先走链表之差步。然后一起走，若相等则相交
+        while(longer!=shorter)
+        {
+            longer=longer.next;
+            shorter=shorter.next;
+        }
+        return longer;
+    }
+}
+      
