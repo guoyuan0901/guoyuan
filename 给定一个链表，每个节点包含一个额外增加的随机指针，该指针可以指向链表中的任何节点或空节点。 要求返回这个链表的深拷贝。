@@ -1,0 +1,39 @@
+class Solution {
+    public Node copyRandomList(Node head) {
+        if(head==null){
+            return null;
+        }
+        Node p1=head;
+        while(p1!=null){
+            Node p2=new Node ();
+            p2.val=p1.val;
+            p2.random=null;
+            p2.next=p1.next;
+            p1.next=p2;
+            p1=p2.next;
+        }
+        p1=head;//p1为新链表的头结点
+        while(p1!=null)
+        {
+            Node p2=p1.next;//p2为下一节点
+            if(p1.random!=null)//p1的随机结点为null时，p1的next结点找不到，但p2应该为空
+                p2.random=p1.random.next;
+            p1=p2.next;
+
+        }//随机值拷贝完成
+        p1=head;
+        Node newHead=head.next;
+        while(p1!=null)
+        {
+            Node p2=p1.next;
+            p1.next=p2.next;
+            if(p2.next!=null)
+            {
+                p2.next=p2.next.next;
+            }
+            p1=p1.next;
+        }//将链表拆开，返回新拷贝的链表
+        return newHead;
+    }
+}
+        
