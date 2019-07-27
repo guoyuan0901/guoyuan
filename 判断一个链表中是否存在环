@@ -1,0 +1,19 @@
+public class Solution {
+    public boolean hasCycle(ListNode head) {
+        ListNode fast=head;
+        ListNode slow=head;
+        do{
+            if(fast==null)
+            {
+               return false;//空链表
+            }
+            fast=fast.next;
+            if(fast==null)
+                return false;//无环链表
+            slow=slow.next;
+            fast=fast.next;
+        }while(fast!=slow);//知道他两相等，代表相遇，即有环
+       return true;
+        
+    }
+}
