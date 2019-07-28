@@ -1,0 +1,160 @@
+class Node {
+    int val;
+    Node next;
+    Node prev;
+    Node(int val) {
+        this.val = val;
+    }
+}
+public class MyLinkedList {
+    private Node head = null;
+    private Node last = null;
+    private int size=0;
+    public void pushFront(int val){
+        Node node=new Node(val);
+        node.next=head;
+        if(head!=null) {
+            head=node;
+            head.prev = node;
+        }
+        else
+            last=head=node;
+        size++;
+    }//头插
+    public void popFront() {
+        if (size <= 0) {
+            System.out.println("无法对空链表做删除");
+        }
+        if (head != null) {
+            head = head.next;
+            head.prev = null;
+            size--;
+        } else {
+            last = null;
+        }
+    }//头删
+
+    public void pushBack(int val) {
+        Node node = new Node(val);
+        if (last != null) {
+            last.next = node;
+            node.prev = last;
+            last = node;
+            size++;
+        } else
+            head = last = node;
+    }//尾插
+
+    public void popBack() {
+        if(size<=0) {
+            System.out.println("无法对空链表进行删除");
+            return;
+        }
+        if (head == last) {
+            head = last = null;
+        } else {
+            last.prev.next = null;
+            last = last.prev;
+            size--;
+        }
+    }//尾删
+
+    public void add(int index, int val) {
+        if(index<0||index>size){
+            System.out.println("下标越界");
+            return;
+        }
+        if(size==index)
+            pushBack(val);//尾插
+        else if(size==0)
+            pushFront(val);//头插
+        else {
+            Node cur = head;
+            Node node = new Node(val);
+            for (int i = 0; i < index; i++) {
+                cur = cur.next;
+            }
+            node.prev = cur.prev;
+            node.next = cur;
+            node.prev.next = node;
+            node.prev = node;
+        }
+    }// 指定节点插入
+
+    public void remove(int index) {
+        if(index<0||index>size){
+            System.out.println("下标越界");
+            return;
+        }
+        if(size==index)
+            popBack();//尾删
+        else if(size==0)
+            popFront();//头删
+        else {
+            Node node = head;
+            for (int i = 0; i < index; i++) {
+                node = node.next;
+            }
+            node.next.prev = node.prev;
+            node.prev.next = node.next;
+            size--;
+        }
+    }//删除指定下标
+    private Node getNode(int index) {
+        int len = 0;
+        Node p1;//新建一个引用，用来返回指定下标节点
+        for (Node cur = head; cur != null; cur = cur.next)
+            len++;//求出链表长度
+        if(index <=len / 2) {
+            p1 = head;
+            for (int i = 0; i < index; i++) {
+                p1 = p1.next;
+            }
+        }//下标出现在左半部分，从头开始访问
+        else {
+            p1 = last;
+            for (int i = 0; i < (len - index); i++) {
+                p1 = p1.prev;
+            }
+        }//否则从结尾开始
+        return p1;
+    }//返回要删除节点
+    public static void main(String[] args) {
+        MyLinkedList list = new MyLinkedList();
+        list.pushFront(1);
+        list.pushFront(2);
+        list.pushFront(3);
+        System.out.println("3 2 1");
+        list.popFront();
+        list.popFront();
+        list.popFront();
+        System.out.println("");
+        list.pushBack(10);
+        list.pushBack(20);
+        list.pushBack(30);
+        System.out.println("10 20 30");
+        list.popBack();
+        list.popBack();
+        list.popBack();
+        System.out.println("");
+        list.pushBack(1);
+        list.pushBack(2);
+        list.pushBack(3);
+        list.pushBack(4);
+        list.pushBack(5);
+        System.out.println("1 2 3 4 5");
+        list.add(1, 10);
+        System.out.println("1 10 2 3 4 5");
+        list.add(5, 20);
+        System.out.println("1 10 2 3 4 20 5");
+        list.remove(1);
+        System.out.println("1 2 3 4 20 5");
+        list.remove(4);
+        System.out.println("1 2 3 4 5");
+    }
+}
+
+
+
+
+
