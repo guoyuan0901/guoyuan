@@ -18,7 +18,7 @@
             return null;
 
     }
-}
+}//遍历算法
 （2）public class Solution {
     public ListNode FindKthToTail(ListNode head,int k) {
 		ListNode front=head;
@@ -35,5 +35,5 @@
 		}
 		return slow;
 	}
-}
+}//快慢指针
 
