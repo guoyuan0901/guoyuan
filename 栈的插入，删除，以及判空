@@ -1,0 +1,39 @@
+class Stack {
+    int[] array;
+    int top;
+
+    Stack() {
+        array = new int[10];
+        top = 0;
+    }
+
+    public void push(int val) {
+        if (top == array.length) {
+            array = Arrays.copyOf(array, array.length * 2);
+        }
+        array[top] = val;
+        top++;
+    }//插入元素（尾插）
+
+    public void pop() {
+        if (top <= 0)
+            return;
+        else {
+            top--;
+            array[top] = 0;
+        }
+    }//删除元素（尾删）
+
+    public int top() {
+        return array[top - 1];
+    }//返回栈顶元素
+
+    public int size() {
+        return top;
+    }//栈内元素个数
+
+    public boolean isEmpty() {
+        return top == 0;
+    }
+}//判空
+
