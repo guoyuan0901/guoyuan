@@ -1,0 +1,54 @@
+import java.util.LinkedList;
+class MyStack {
+    private LinkedList<Integer> queue;//定义一个链表类的引用queue
+
+    /**
+     * Initialize your data structure here.
+     */
+    public MyStack() {
+        queue = new LinkedList<>();
+
+    }
+
+    /**
+     * Push element x onto stack.
+     */
+    public void push(int x) {
+        queue.addLast(x);//队列的尾插入栈
+
+    }//栈的入栈
+
+    /**
+     * Removes the element on top of the stack and returns that element.
+     */
+    public int pop() {
+        int size = queue.size();
+        for (int i = 0; i < size - 1; i++) {
+            int v = queue.pollFirst();
+            queue.addLast(v);//将队列的队首元素尾插入队尾实现栈的出栈
+        }
+        return queue.pollFirst(); 
+    }//栈的出栈
+
+    /**
+     * Get the top element.
+     */
+    public int top() {
+        int size = queue.size();
+        for (int i = 0; i < size - 1; i++) {
+            int v = queue.pollFirst();
+            queue.addLast(v);
+        }
+        int v = queue.pollFirst();
+        queue.addLast(v);
+        return v;//将原队尾元素出栈
+    }//返回栈顶元素
+
+    /**
+     * Returns whether the stack is empty.
+     */
+    public boolean empty() {
+        return queue.isEmpty();
+    }//栈的判空
+}
+
