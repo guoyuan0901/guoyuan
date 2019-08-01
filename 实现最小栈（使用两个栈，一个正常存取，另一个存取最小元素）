@@ -1,0 +1,34 @@
+import java.util.ArrayList;
+class MinStack {
+    private ArrayList<Integer> normal;
+    private ArrayList<Integer> min;//两个顺序表的变量
+
+    /** initialize your data structure here. */
+    public MinStack() {
+        normal=new ArrayList<>();
+        min=new ArrayList<>();
+    }//最小栈的构造方法
+
+    public void push(int x) {
+        normal.add(x);
+        if(min.isEmpty()){
+            min.add(x);//如果最小栈为空直接尾插
+        }else if(min.get(min.size()-1)>x)
+            min.add(x);//如果当前最小栈内元素大于及将要插入normal栈内的元素，则将x插入
+        else
+            min.add(min.get(min.size()-1));//如果不大于，则将当前最小栈内最小元素在插入一遍
+    }
+
+    public void pop() {
+        normal.remove(normal.size()-1);
+        min.remove(min.size()-1);
+    }//出栈（同时出栈）
+
+    public int top() {
+        return normal.get(normal.size()-1);
+    }//获取栈顶元素
+
+    public int getMin() {
+        return min.get(min.size()-1);
+    }//获取最小元素
+}
