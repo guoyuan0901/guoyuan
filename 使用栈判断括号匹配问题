@@ -1,0 +1,33 @@
+import java.util.ArrayList;
+public class isValid {
+    public boolean isValid(String s) {
+        ArrayList<Character> stack = new ArrayList<>();
+        for (int i = 0; i <s.length();i++){
+            char c=s.charAt(i);
+            switch(c){
+                case'(':
+                case'[':
+                case'{':
+                    stack.add(c);//压入堆栈
+                    break;
+                case')':
+                case']':
+                case'}':{
+                    if(stack.isEmpty())
+                        return false;//此时堆栈为空，则证明栈内没有左括号，即右括号多
+                     char left=stack.remove(stack.size()-1); //将当前堆栈的栈顶元素弹出
+                     if(!((left=='('&&c==')')||(left=='['&&c==']')||(left=='{'&&c=='}')))
+                         return false; //括号不匹配
+                     break; //括号匹配，则跳出switch继续循环，读取下一个字符
+                }
+                default:
+                    break; //若字符串中出现其他字符，则退出
+            }
+        }
+        if(stack.isEmpty())
+            return true;  //最后判断栈内是否为空，为空则证明左括号多
+        else
+            return false;
+    }
+
+}
