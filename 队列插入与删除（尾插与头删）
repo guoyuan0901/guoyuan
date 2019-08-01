@@ -1,0 +1,57 @@
+class Node{
+    int val;
+    Node next;
+    Node(int val)
+    {
+        this.val=val;
+        this.next=next;
+    }
+}
+public class Queue {
+    private Node front = null;
+    private Node rear = null;
+    private int size = 0;
+
+    public void push(int val) {
+        Node node = new Node(val);
+        if (front == null) {
+            front = node;
+        } else
+            rear.next = node;
+        rear = node;
+        size++;
+    }//尾插
+
+    public void pop() {
+        if (front == rear)
+            front = rear = null;
+        else
+            front = front.next;
+    }//头删
+
+    public int front() {
+        if (size <= 0) {
+            System.out.println("队列为空");
+            return -1;
+        }
+        return front.val;
+    }//返回队首元素
+
+    public int rear() {
+        if (size <= 0) {
+            System.out.println("队列为空");
+            return -1;
+        }
+        return rear.val;
+    }//返回队尾元素
+
+    public int size() {
+        return size;
+    }//返回当前队列元素
+
+    public boolean isEmpty() {
+        return size == 0;
+    }//队列判空
+}
+
+   
