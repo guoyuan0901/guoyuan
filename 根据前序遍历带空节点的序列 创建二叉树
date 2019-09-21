@@ -1,0 +1,43 @@
+import java.util.List;
+public class BinaryTree1 {
+    private static class Node {
+        private int val;
+        private Node left = null;
+        private Node right = null;
+
+        private Node(int val) {
+            this.val = val;
+        }
+    }
+//buildTreeReturnValue
+    private static class BTRV {
+        private Node root;
+        private int used;
+    }//定义一个类用来返回当前树的根结点以及创建它所需要的结点数
+
+    BTRV buildTree(List<Integer> perorder) {
+        BTRV returnValue = new BTRV();//创建一个BTRV类的对象，作为创建树的根结点
+        if(perorder.size()==0)
+        {
+            returnValue.root=null;
+            returnValue.used=0;
+            return returnValue;
+        }
+        int rootValue = perorder.get(0);//获取前序序列的根结点，也是整棵树的根结点
+        if(rootValue=='#')
+        {
+            returnValue.root=null;
+            returnValue.used=1;
+            return returnValue;
+        }//只有一个空节点
+        BTRV leftReturn = buildTree(perorder.subList(1, perorder.size()));//将序列中从1到size的值压入左子树
+        BTRV rightReturn = buildTree(perorder.subList(leftReturn.used + 1, perorder.size()));//将压入右子树
+        // 从创建左子树所需要的结点数加根结点数为起始节点开始压入堆栈
+        Node root = new Node(rootValue);//为根结点创建一个新的结点
+        root.left = leftReturn.root;
+        returnValue.root = root;
+        root.right = rightReturn.root;
+        returnValue.used = 1 +leftReturn.used + rightReturn.used;//每次都进行汇总计算构建新节点一共用了几个
+        return returnValue;
+    }
+}
