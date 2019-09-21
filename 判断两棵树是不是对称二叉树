@@ -1,0 +1,15 @@
+对称二叉树需要满足根节点值相同，同一层结点左子树和另一棵树的右子树相同
+class Solution {
+    private boolean isMirrorTree(TreeNode p,TreeNode q){
+        if(p==null&&q==null)
+            return true;
+        if(p==null||q==null)
+            return false;
+        return p.val==q.val&&isMirrorTree(p.left,q.right)&&isMirrorTree(p.right,q.left);
+    }//判断是否为对称二叉树方法
+    public boolean isSymmetric(TreeNode root) {
+        if(root==null)
+            return true;
+        return isMirrorTree(root.left,root.right);
+    }
+}
