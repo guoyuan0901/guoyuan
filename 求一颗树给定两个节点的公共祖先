@@ -1,0 +1,29 @@
+class Solution {
+    private boolean search(TreeNode r,TreeNode t){
+        if(r==null)
+            return false;
+        if(r==t)
+            return true;
+        if(search(r.left,t)){
+            return true;
+        }//左子树没找到的话，换去右子树赵 找到的话返回true 没有false
+        else
+           return search(r.right,t);
+        
+    }//判断结点的位置，在左子树还是右子树上
+    public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
+    if(root==p||root==q){
+         return root;
+    }
+    boolean pInLeft=search(root.left,p);//判断p是否在左子树上
+    boolean qInLeft=search(root.left,q);//判断q是否在左子树上
+    if(pInLeft&&qInLeft){
+        return lowestCommonAncestor(root.left,p,q);//如果在 去左子树找
+    }
+    if(!pInLeft&&!qInLeft){
+        return lowestCommonAncestor(root.right,p,q);//否则 去右子树找
+     }
+    return root;//当一个在左子树 一个在右子树上时 是根节点
+        
+    }
+}
