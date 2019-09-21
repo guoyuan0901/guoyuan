@@ -1,0 +1,54 @@
+//定义三个变量i,j,k
+//j为i的下一个元素 k为数组的最后一个下标
+class Solution {
+    public List<List<Integer>> threeSum(int[] nums) {
+    Arrays.sort(nums);//对数组进行排序
+    List<List<Integer>> result=new ArrayList<>();
+    for(int i=0;i<nums.length-2;i++)
+    {
+        int j=i+1;
+        int k=nums.length-1;
+        while(i<nums.length-2&&nums[i]==nums[i+1]) {
+            i++;
+        }//为了避免重复的情况 当第i个下标和i+1个下标元素相同时 跳过
+        while(j<k) {
+            while (j < k && nums[i] + nums[j] + nums[k] < 0) {
+                j++;
+            }//如果三数之和小于0，说明j的值小了
+            if (j >= k) {
+                break;
+            }//如果j++之后的值大于K 直接退出
+            if (nums[i] + nums[j] + nums[k] == 0) {
+                List<Integer> e = new ArrayList<>();
+                e.add(nums[i]);
+                e.add(nums[j]);
+                e.add(nums[k]);
+                result.add(e);
+                while (j < k && nums[j] == nums[j + 1]) {
+                    j++;
+                }
+                j++;
+            }//三数之和恰好等于0 将该下标元素尾插入新链表 并删除重复节点
+            //之和小于0的所有情况
+            while(j<k&&nums[i] + nums[j] + nums[k] > 0) {
+                k--;
+            }//三数之和大于0 说明k大了
+            if(j>=k){
+                break;
+            }//如果k--之后的值小于j 直接退出
+            if (nums[i] + nums[j] + nums[k] == 0) {
+                List<Integer> e = new ArrayList<>();
+                e.add(nums[i]);
+                e.add(nums[j]);
+                e.add(nums[k]);
+                result.add(e);//如果k--之后三数之和等于0 尾插
+                while (j < k && nums[k] == nums[k - 1]) {
+                    k--;
+                }//去掉重复
+                k--;//找到之后k-- 继续循环
+            }//之和大于0的所有情况
+        }
+    }
+    return result; 
+    }
+}    
