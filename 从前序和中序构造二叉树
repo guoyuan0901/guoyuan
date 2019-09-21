@@ -1,0 +1,23 @@
+//首先从前序队列找出根节点
+//在中序队列中找到根结点的位置，在中序中找到左子树的序列并计算七其个数
+//分别在前序和中序序列中找到左子树 右子树作为递归的参数，直至前序序列为空
+class Solution {
+    public TreeNode buildTree(int[] preorder, int[] inorder) {
+        if(preorder.length==0)
+            return null;
+        int rootValue=preorder[0];//前序序列的第一个结点就是根
+        int leftCount;
+        for(leftCount=0;leftCount<preorder.length;leftCount++){
+            if(inorder[leftCount]==rootValue)
+                break;
+        }//计算左子树序列的结点数
+        TreeNode root=new TreeNode(rootValue);
+        int [] leftpreorder=Arrays.copyOfRange(preorder,1,leftCount+1);//在前序序列中及中序序列中找到左子树的序列
+        int [] leftinorder=Arrays.copyOfRange(inorder,0,leftCount);
+        root.left=buildTree(leftpreorder,leftinorder);//进行循环递归进行构建
+        int [] rightpreorder=Arrays.copyOfRange(preorder,leftCount+1,preorder.length);
+        int [] rightinorder=Arrays.copyOfRange(inorder,leftCount+1,inorder.length);///在前序序列中及中序序列中找到右子树的序列
+        root.right= buildTree(rightpreorder,rightinorder);
+        return root;//返回根节点
+    }
+}
