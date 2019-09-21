@@ -1,0 +1,33 @@
+1.利用遍历的思想（根左右）（注意：1.每次都要进行将链表清空；2.记录的位置需要放在后面）
+class Solution {
+    List<Integer> list=new ArrayList<>();
+    private void preorder(TreeNode root){
+        if(root!=null){
+        list.add(root.val);
+        preorder(root.left);
+        preorder(root.right);
+        }
+    }
+    public List<Integer> preorderTraversal(TreeNode root) {
+        list.clear();//清空
+        preorder(root);
+        return list;
+    }
+}
+2.利用汇总的思想（分开考虑，先分别将左子树和右子树的结点都求出来，最后在进行汇总）
+class Solution {
+    public List<Integer> preorderTraversal(TreeNode root) {
+        if(root==null)
+        {
+            return new ArrayList<>();
+        }
+        List<Integer> left=preorderTraversal(root.left);//求出所有左子树节点
+        List<Integer> right=preorderTraversal(root.right);//求出右子树结点
+        List<Integer> list=new ArrayList<>();
+        list.add(root.val);
+        list.addAll(left);//将链表节点全部进行尾插到新链表中
+        list.addAll(right);
+        return list;
+
+    }
+}
