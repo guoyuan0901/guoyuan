@@ -1,0 +1,60 @@
+import java.util.Stack;
+
+public class Tree {
+    public static class Node{
+        int val;
+        Node left;
+        Node right;
+        public Node(int val){
+            this.val=val;
+        }
+    }//前序非递归遍历（根左右）
+    public static  void preOrder(Node root){
+        Stack<Node> stack=new Stack<>();
+        Node cur=root;
+        while(cur!=null&&!stack.isEmpty()){
+            while(cur!=null) {
+                System.out.println(root.val);//首先在还没开始之前进行打印 再压栈
+                stack.push(cur);
+                cur = cur.left;//处理左子树
+            }
+            Node n=stack.pop();
+            cur=n.right;//将当前栈顶元素弹出处理其结点的右子树
+        }
+    }
+    public static void inOrder(Node root){
+        Stack<Node> stack=new Stack<>();
+        Node cur=root;
+        while(cur!=null&&!stack.isEmpty()){
+            while(cur!=null) {
+                stack.push(cur);
+                cur = cur.left;
+            }
+            Node n=stack.pop();
+            System.out.println(n.val);//打印是在处理右子树之前
+            cur=n.right;
+        }
+    }//中序的非递归（左根右）
+    public static void postOrder(Node root){
+        Stack<Node> stack=new Stack<>();
+        Node cur=root;
+        Node last=null;
+        while(cur!=null&&!stack.isEmpty()){
+            while(cur!=null) {
+                stack.push(cur);
+                cur = cur.left;
+            }
+            Node top=stack.peek();//只取栈顶元素 不出栈 如果top右子树为空 返回时当前的top已经出栈 不否合后序遍历
+            //设置last是为了判断递归返回时是从左回来还是右回来
+            if(top.right==null||top.right==last)
+            {
+                System.out.println(top.val);
+                stack.pop();
+                last=top;
+            }else{
+                cur = top.right;
+            }
+        }
+    }//后序非递归遍历（左右根）
+
+}
