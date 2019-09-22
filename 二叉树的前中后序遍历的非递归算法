@@ -1,0 +1,67 @@
+class Solution {
+    public List<Integer> preorderTraversal(TreeNode root) {
+        List<Integer> list=new ArrayList<>();
+        Stack<TreeNode> stack=new Stack<>();
+        TreeNode cur=root;
+        while(cur!=null||!stack.isEmpty()){
+            while(cur!=null) {
+                list.add(cur.val);//先将压栈之前的数据插入链表中 实现前序遍历
+                stack.push(cur);
+                cur = cur.left;
+            }
+            TreeNode n=stack.pop();
+            cur=n.right;//弹出栈顶元素 处理其右子树
+        }
+        return list;
+    }
+}//前序遍历
+
+
+
+class Solution {
+    public List<Integer> inorderTraversal(TreeNode root) {
+        List<Integer> list=new ArrayList<>();
+        Stack<TreeNode> stack=new Stack<>();
+        TreeNode cur=root;
+        while(cur!=null||!stack.isEmpty())
+        {
+            while(cur!=null)
+            {
+                stack.push(cur);
+                cur = cur.left;
+            }
+            TreeNode n=stack.pop();
+            list.add(n.val);//在进行遍历其的右子树之前 将栈顶元素插入 实现中序遍历
+            cur=n.right;
+        }
+        return list;
+    }
+}//中序遍历
+
+
+
+class Solution {
+    public List<Integer> postorderTraversal(TreeNode root) {
+        List<Integer> list=new ArrayList<>();
+        Stack<TreeNode> stack=new Stack<>();
+        TreeNode cur=root;
+        TreeNode last=null;
+        while(cur!=null||!stack.isEmpty()){
+            while(cur!=null) {
+                stack.push(cur);
+                cur = cur.left;
+            }
+            TreeNode top=stack.peek();//只取栈顶元素 不出栈 如果top右子树为空 返回时当前的top已经出栈 不否合后序遍历
+            //设置last是为了判断递归返回时是从左回来还是右回来
+            if(top.right==null||top.right==last)
+            {
+                list.add(top.val);
+                stack.pop();
+                last=top;
+            }else{
+                cur = top.right;
+            }
+        }
+        return list;
+    }
+}//后序遍历
