@@ -8,7 +8,7 @@ public class Tree {
         public Node(int val){
             this.val=val;
         }
-    }//前序非递归遍历（根左右）
+    }//前序递归遍历（根左右）
     public static  void preOrder(Node root){
         Stack<Node> stack=new Stack<>();
         Node cur=root;
@@ -34,7 +34,7 @@ public class Tree {
             System.out.println(n.val);//打印是在处理右子树之前
             cur=n.right;
         }
-    }//中序的非递归（左根右）
+    }//中序的递归（左根右）
     public static void postOrder(Node root){
         Stack<Node> stack=new Stack<>();
         Node cur=root;
@@ -55,6 +55,6 @@ public class Tree {
                 cur = top.right;
             }
         }
-    }//后序非递归遍历（左右根）
+    }//后序递归遍历（左右根）
 
 }
