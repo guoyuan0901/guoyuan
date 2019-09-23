@@ -16,7 +16,7 @@ public class BinaryTree1 {
     }//定义一个类用来返回当前树的根结点以及创建它所需要的结点数
 
     BTRV buildTree(List<Integer> perorder) {
-        BTRV returnValue = new BTRV();//创建一个BTRV类的对象，作为创建树的根结点
+        BTRV returnValue = new BTRV();//创建一个BTRV类的对象，作为创建建的新树的根结点
         if(perorder.size()==0)
         {
             returnValue.root=null;
@@ -29,15 +29,17 @@ public class BinaryTree1 {
             returnValue.root=null;
             returnValue.used=1;
             return returnValue;
-        }//只有一个空节点
-        BTRV leftReturn = buildTree(perorder.subList(1, perorder.size()));//将序列中从1到size的值压入左子树
-        BTRV rightReturn = buildTree(perorder.subList(leftReturn.used + 1, perorder.size()));//将压入右子树
+        }
+        BTRV leftReturn = buildTree(perorder.subList(1, perorder.size()));//将除根结点之外所有节点全部压入左子树的堆栈
+        BTRV rightReturn = buildTree(perorder.subList(leftReturn.used + 1, perorder.size()));
+        //左子树遇到#
+        // 将剩余的序列全部压入右子树的堆栈
         // 从创建左子树所需要的结点数加根结点数为起始节点开始压入堆栈
         Node root = new Node(rootValue);//为根结点创建一个新的结点
         root.left = leftReturn.root;
         returnValue.root = root;
         root.right = rightReturn.root;
-        returnValue.used = 1 +leftReturn.used + rightReturn.used;//每次都进行汇总计算构建新节点一共用了几个
+        returnValue.used = 1 +leftReturn.used + rightReturn.used;
         return returnValue;
     }
-}
+}//对一个带空节点的前序序列进行建二叉树
