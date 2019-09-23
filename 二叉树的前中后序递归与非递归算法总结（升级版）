@@ -1,0 +1,140 @@
+import javax.swing.tree.TreeNode;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Stack;
+
+public class Tree {
+    public static class Node{
+        int val;
+        Node left;
+        Node right;
+        public Node(int val){
+            this.val=val;
+        }
+    }
+    public static  void preOrder(Node root){
+        Stack<Node> stack=new Stack<>();
+        Node cur=root;
+        while(cur!=null||!stack.isEmpty()){//设置两个条件是为了区分栈为空
+            // 当整棵树遍历完之后的栈为空的 而且当前节点为null
+            //在栈递归至根节点的时候栈也为空 但当前节点不为空
+            while(cur!=null) {
+                System.out.println(cur.val);//打印是在处理之前
+                stack.push(cur);
+                cur = cur.left;
+            }
+            Node n=stack.pop();//当节点的左子树遍历完时 出其双亲结点 访问右子树
+            cur=n.right;
+        }
+    }//前序的递归（左根右）
+    public static void inOrder(Node root){
+        Stack<Node> stack=new Stack<>();
+        Node cur=root;
+        while(cur!=null||!stack.isEmpty()){
+            while(cur!=null) {
+                stack.push(cur);
+                cur = cur.left;
+            }
+            Node n=stack.pop();
+            System.out.println(n.val);//打印是在处理其右子树之前
+            cur=n.right;
+        }
+    }//中序的递归（左根右）
+    public static void postOrder(Node root){
+        Stack<Node> stack=new Stack<>();
+        Node cur=root;
+        Node last=null;
+        while(cur!=null||!stack.isEmpty()){
+            while(cur!=null) {
+                stack.push(cur);
+                cur = cur.left;
+            }
+            Node top=stack.peek();//只取栈顶元素 不出栈 如果top右子树为空 返回时当前的top已经出栈 不否合后序遍历
+            //设置last是为了判断递归返回时是从左回来还是右回来
+            if(top.right==null||top.right==last)
+            {
+                System.out.println(top.val);
+                stack.pop();
+                last=top;
+            }else{
+                cur = top.right;
+            }
+        }
+    }//后序递归遍历（左右根）
+    public static  List<Integer> preOrder1(Node root){
+        List<Integer> list=new ArrayList<>();
+        Stack<Node> stack=new Stack<>();
+        Node cur=root;
+        while(cur!=null||!stack.isEmpty()){
+            while(cur!=null) {
+                list.add(cur.val);
+                stack.push(cur);
+                cur = cur.left;
+            }
+            Node n=stack.pop();
+            cur=n.right;
+        }
+        return list;
+    }//前序的非递归（左根右）
+    public static List<Integer> inOrder1(Node root){
+        List<Integer> list=new ArrayList<>();
+        Stack<Node> stack=new Stack<>();
+        Node cur=root;
+        while(cur!=null||!stack.isEmpty()) {
+            while (cur != null) {
+                stack.push(cur);
+                cur = cur.left;
+            }
+            Node n = stack.pop();
+            list.add(cur.val);
+            cur = n.right;
+        }
+        return list;
+    }//中序的非递归（左根右）
+    class Solution {
+        public List<Integer> postOrder1(Node root) {
+            List<Integer> list=new ArrayList<>();
+            Stack<Node> stack=new Stack<>();
+            Node cur=root;
+            Node last=null;
+            while(cur!=null||!stack.isEmpty()){
+                while(cur!=null) {
+                    stack.push(cur);
+                    cur = cur.left;
+                }
+                Node top=stack.peek();//只取栈顶元素 不出栈 如果top右子树为空 返回时当前的top已经出栈 不否合后序遍历
+                //设置last是为了判断递归返回时是从左回来还是右回来
+                if(top.right==null||top.right==last)
+                {
+                    list.add(top.val);
+                    stack.pop();
+                    last=top;
+                }else{ 
+                    cur = top.right;
+                }
+            }
+            return list;
+        }
+    }//后序非递归遍历
+    public static Node buildTree(){
+        Node n1=new Node(1);
+        Node n2=new Node(2);
+        Node n3=new Node(3);
+        Node n4=new Node(4);
+        Node n5=new Node(5);
+        Node n6=new Node(6);
+        n1.left=n2; n1.right=n3;
+        n2.left=n4;
+        n3.left=n5; n3.right=n6;
+        return n1;
+
+    }
+    public static void main(String[] args) {
+        Node root = buildTree();
+        preOrder(root);//1 2 4 3 5 6
+        System.out.println("==========");
+        inOrder(root);//4 2 1 5 3 6
+        System.out.println("==========");
+        postOrder(root);//4 2 5 6 3 1
+    }
+}
