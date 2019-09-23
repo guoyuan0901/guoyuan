@@ -1,0 +1,56 @@
+public class MyPriorityQueue {
+    private int []array;
+    private int size;
+    MyPriorityQueue (){
+        array=new int [16];
+        size=0;
+    }
+    public void offer(int i) {
+        array[size++]=i;
+        shiftUpSmall(array,size-1);
+    }//入队 插入元素 当前的堆尾 进行小堆的向下调整
+    public int poll(){
+        int element=array[0];
+        array[0]=array[--size];//先减减 在使用 获取当前队尾下标 出队之后整体元素数减1
+        Heap.shiftDownSmall(array,size,0 );//使用小堆来建立新堆
+        return element;
+    }//出队
+    //将当前堆的最后一个元素与要出堆的元素（堆顶）进行交换 输出
+    //对当前堆顶进行小堆向下调整
+    public int peek(){
+        return array[0];
+    }//返回队首元素（不删除）
+    public static void shiftUpSmall(int[] array,int i)
+    {
+        while(i!=0) {
+            int parents = (i - 1) / 2;
+            if (array[parents] > array[i]) {
+                swap(array, parents, i);
+                i = parents;//把双亲结点在数组中的下标赋给i 继续查找双亲结点;
+            }else
+                break;
+        }
+    }//对指定下标元素进行向上调整
+
+    private static void swap(int[] array, int i, int j) {
+        int t=array[i];
+        array[i]=array[j];
+        array[j]=t;
+    }
+    public static void main(String[] args) {
+        MyPriorityQueue queue=new MyPriorityQueue();
+        queue.offer(7);
+        queue.offer(9);
+        queue.offer(5);
+        System.out.println(queue.poll());//5
+        queue.offer(3);
+        System.out.println(queue.poll());//3
+        queue.offer(10);
+        queue.offer(8);
+        System.out.println(queue.poll());//7
+        System.out.println(queue.poll());//8
+        System.out.println(queue.poll());//9
+        System.out.println(queue.poll());//10
+    }
+}//利用堆实现优先级出队方法
+
