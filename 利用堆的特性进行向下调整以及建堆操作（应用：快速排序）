@@ -1,0 +1,98 @@
+import java.util.Arrays;
+import java.util.Random;
+
+public class Heap {
+    public static void shiftDownSmall(int []array,int size,int index) {
+        int left = 2 * index + 1;
+        while (left < size) {
+            int right=left+1;
+            int min=left;
+            if(right<size) {
+                if (array[min] > array[right]) {
+                    min = right;
+                }
+            }
+            if (array[index] > array[min]) {
+                    swap(array, index, min);
+                    index = min;
+                    left = 2 * index + 1;
+            }else
+                    break;
+        }
+    }//对给定下标位置元素进行小堆排序
+    public static void shiftDownBig(int []array,int size,int index) {
+        int left = 2 * index + 1;
+        while (left < size) {
+            int right=left+1;
+            int max=left;
+            if(right<size) {
+                if (array[max] < array[right]) {
+                    max = right;
+                }
+            }
+            if (array[index] < array[max]) {
+                    swap(array, index, max);
+                    index = max;
+                    left = 2 * index + 1;
+            }
+            else
+                break;
+        }
+    }//对给定下标位置元素进行大堆排序
+    public static void createHeapSmall(int []array,int size){
+        for(int i=(size-2)/2;i>=0;i--)
+        {
+            shiftDownSmall(array,size,i);
+        }
+    }//对数组元素进行建堆
+    // 因为堆本身就是数组 而此时的堆是无序的 不是小堆 也不是大堆
+    // 建堆需要从最后一个节叶子点的双亲结点开始建堆
+    public static void createHeapBig(int []array,int size){
+        for(int i=(size-2)/2;i>=0;i--)
+        {
+            shiftDownBig(array,size,i);
+        }
+    }
+
+
+    private static void swap(int[] array, int i, int j) {
+        int t=array[i];
+        array[i]=array[j];
+        array[j]=t;
+    }//交换双亲结点及子节点位置
+    public static void heapSort(int []array){
+        createHeapBig(array,array.length);//排升序 建大堆
+        for(int i=0;i<array.length-1;i++){
+            //一共排length-1次
+            //交换前无序区：0    array.length-i
+            //交换前有序区：array.length-i    array.length
+            swap(array,0,array.length-1-i);
+            //交换后无序区：0    array.length-i-1
+            //交换后有序区：array.length-i+1    array.length
+            //剩余的无序元素为无序区间的长度：array.length-i-1
+            shiftDownBig(array,0,array.length-1-i);
+        }
+    }//快速排序算法
+    //在一个无序的数组中建大堆
+    //找到最大的元素和当前无序区间的最后一个元素进行交换 
+
+
+    public static void main(String[] args) {
+        int []small={39,15,3,18,40,5,6,51,52,70};
+        shiftDownSmall(small,10,0);
+        System.out.println(Arrays.toString(small));
+        //建小堆
+        int []big={100,50,30,25,40,80,70,10,5,20,30,60,70,60,70,5};
+        shiftDownBig(big,7,0);
+        System.out.println(Arrays.toString(big));
+        //建大堆
+        int []t=new int [10];
+        Random random=new Random(20190922);
+        for(int i=0;i<10;i++){
+            t[i]=random.nextInt(20);
+        }//生成10个随机数
+        System.out.println(Arrays.toString(t));
+        createHeapSmall(t,t.length);
+        System.out.println(Arrays.toString(t));
+    }
+}
