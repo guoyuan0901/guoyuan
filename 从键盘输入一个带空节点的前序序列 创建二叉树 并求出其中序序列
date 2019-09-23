@@ -1,0 +1,53 @@
+import java.util.Arrays;
+import java.util.Scanner;
+public class BinaryTree2 {
+    private static class Node {
+        private char val;
+        private Node left = null;
+        private Node right = null;
+
+        private Node(char val) {
+            this.val = val;
+        }
+    }
+
+    private static class RV {
+        private Node root;
+        private int used;
+
+        private RV(Node root, int used) {
+            this.root = root;
+            this.used = used;
+        }
+    }
+
+    private static RV buildTree(char[] preorder) {
+        Node root = new Node(preorder[0]);
+        if (preorder.length == 0)
+            return new RV(null, 0);
+        if (preorder[0] == '#')
+            return new RV(null, 1);
+        RV leftReturn = buildTree(Arrays.copyOfRange(preorder, 1, preorder.length));
+        RV rightReturn = buildTree(Arrays.copyOfRange(preorder, leftReturn.used, preorder.length));
+        root.left = leftReturn.root;
+        root.right = rightReturn.root;
+        return new RV(root, 1 + leftReturn.used + rightReturn.used);
+    }
+    public static void inOrderTraversal(Node root){
+        if(root!=null){
+            inOrderTraversal(root.left);
+            System.out.print(root.val+"");
+            inOrderTraversal(root.right);
+        }
+    }//二叉树的中序遍历
+    public static void main(String[] args) {
+        Scanner scanner=new Scanner(System.in);
+        String line=scanner.nextLine();//直接从键盘输入一行
+        char []charArray=line.toCharArray();
+        RV rv=buildTree(charArray);
+        inOrderTraversal(rv.root);
+    }
+
+}
+
+
