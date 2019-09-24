@@ -1,0 +1,23 @@
+class Solution {
+    private boolean isSameTree(TreeNode p,TreeNode q)
+    {
+        if(p==null&&q==null)
+            return true;
+        if(p==null||q==null)
+            return false;
+        return p.val==q.val&&isSameTree(p.left,q.left)&&isSameTree(p.right,q.right);
+    }//检查两棵树是否相同
+    private boolean Search(TreeNode root,TreeNode t ){
+        if(root==null)
+            return false;
+        if(isSameTree(root,t))
+            return true;
+        if(Search(root.left,t))
+            return true;//如果他两不是相同的树 则去root的左子树中找
+        return Search(root.right,t);
+            
+    }//判断以root中是否包含t
+    public boolean isSubtree(TreeNode s, TreeNode t) {
+        return Search(s,t);
+   }
+}
