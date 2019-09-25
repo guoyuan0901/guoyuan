@@ -1,0 +1,199 @@
+import java.sql.SQLOutput;
+import java.util.Arrays;
+import java.util.Random;
+
+public class Sort {
+    public static void insertSort(int[] array) {
+        //有序区间：[0,i)
+        //无序区间：[i,array.length)
+        for (int i = 1; i < array.length; i++) {//外层循环找的是无序区间
+            int k = array[i];//k为无序区间第一个数
+            int j;//有序区间最后一个数
+            for (j = i - 1; j >= 0 && array[j] > k; j--) {//遍历的是有序区间
+                array[j + 1] = array[j];
+            }//从有序区间的最后一个元素开始比较
+            // 如果大于无序区间元素 则将有序区间的元素后移 最后插入元素
+            array[j + 1] = k;
+        }
+    }//直接插入排序
+
+    public static void shellSort(int[] array) {
+        int gap = array.length;
+        while (true) {
+            gap = (gap / 3) + 1;//希尔排序的分组数 也可以为gap/2
+            insertSortWithGapa(array, gap);
+            if (gap == 1) {
+                break;
+            }
+        }
+    }
+
+    private static void insertSortWithGapa(int[] array, int gap) {
+        for (int i = gap; i < array.length; i++) {//从第二组请开始依次遍历整个数组
+            int k = array[i];
+            int j;
+            for (j = i - gap; j >= 0 && array[j] > k; j -= gap) {//将每一组的元素都与前面几组相对应组的元素比较
+                array[j + gap] = array[j];
+            }
+            array[j+gap] = k;//当循环退出的时候 j的下标减了依次gap
+        }
+    }//希尔排序
+
+    private static void swap(int[] array, int i, int j) {
+        int t = array[i];
+        array[i] = array[j];
+        array[j] = t;
+    }
+
+    public static void selectSortSmall(int[] array) {
+        //无序下标：[i,array.length)
+        for (int i = 0; i < array.length - 1; i++) {//外层循环 需要循环array.length-1次才可以有序
+            int j;
+            int minIndex = i;//设置每次的起始位置为无序序列的第一个位置
+            for (j = minIndex; j < array.length; j++) {    //在无序区间查找最小元素
+                if (array[j] < array[minIndex])
+                    minIndex = j;
+            }
+            swap(array, minIndex, i);
+        }
+    }//直接选择排序
+    //选择无序区间最小的元素放到无序区间第一个位置
+
+
+    public static void selectSortBig(int[] array) {
+        for (int i = 0; i < array.length - 1; i++) {
+            // 无序区间: [0, array.length - i]
+            int max = 0;
+            for (int j = 1; j < array.length - i; j++) {  //无序区间
+                if (array[j] > array[max]) {
+                    max = j;
+                }
+            }
+            int t = array[max];
+            array[max] = array[array.length - i - 1];
+            array[array.length - i - 1] = t;
+        }
+    }//直接选择排序
+    // 选择无序区间最大的元素放到无序区间最后一个位置
+
+    public static void selectSortOP(int[] array) {
+        int begin = 0;
+        int end = array.length - 1;
+        // [begin,end] 表示整个无序区间
+        // 当无序区间内只有一个数时停止排序
+        while (begin <= end) {
+            int minIndex = begin;
+            int maxIndex = begin;//无序区间的最大值和最小值 均设置为第一个元素
+            for (int i = begin + 1; i <= maxIndex; i++) {
+                if (array[i] < array[minIndex])
+                    minIndex = i;
+                if (array[i] > array[maxIndex])
+                    maxIndex = i;
+            }
+            swap(array, minIndex, begin);
+            if (maxIndex == begin) {
+                maxIndex = minIndex;
+            }
+            swap(array, maxIndex, end);
+            begin++;
+            end--;
+        }
+    }//双排
+
+    public static void heapSort(int [] array){
+        createHeap(array);//建大堆
+        for(int i=0;i<array.length;i++) {
+            swap(array, 0, array.length-1-i);
+            //每次让最大的元素与当前树的最后一个节点交换
+            //在对新的树顶做向下调整 找大的结点
+            shiftDownBig(array, array.length-i-1, 0);//当前无序期间的结点个数
+        }
+    }//堆排序
+
+    private static void shiftDownBig(int[] array, int size, int index) {
+        int left = 2 * index + 1;
+        while (left < size)
+        {
+            int max = left;
+            int right = left+1;
+            if (right < size)
+            {
+                if (array[right] > array[left])
+                {
+                    max = right;
+                }
+            }
+            if (array[index] < array[max])
+            {
+                swap(array,index,max);
+                index = max;
+                left = 2 * index + 1;
+            }
+            else
+                break;
+        }
+    }//对指定下标元素做向下调整
+
+    private static void createHeap(int[] array) {
+        for(int j=(array.length-2)/2;j>=0;j--){
+                shiftDownBig(array,array.length,j);
+        }
+    }//建大堆 从最后一个叶子结点的双亲结点开始 依次对其做向下调整
+    public static void bubbleSort(int []array){
+        for(int i=0;i<array.length;i++){
+            for(int j=0;j<array.length-1-i;j++){
+                if(array[j]>array[j+1])
+                    swap(array,j,j+1);
+            }
+        }
+    }//冒泡排序
+public static void testSpeed() {
+    Random random = new Random(20190924);
+    int[] a = new int[10 * 10000];
+    for (int i = 0; i < 10 * 10000; i++) {
+        a[i] = random.nextInt(10 * 10000);
+    }
+    long begin = System.nanoTime();
+    heapSort(a);
+    long end = System.nanoTime();
+    double ms =(end - begin) * 1.0 / 1000 / 1000;
+    System.out.printf("一共耗时：%5f毫秒%n", ms);
+}
+
+    public static void main(String[] args) {
+        int []a={9,5,2,7,3,6,4,8,4,3,9};
+        insertSort(a);
+        System.out.println(Arrays.toString(a));
+        System.out.println("b*========================");
+
+        int []b=a.clone();
+        bubbleSort(b);
+        System.out.println(Arrays.toString(b));
+        System.out.println("c*========================");
+
+        int []c=a.clone();
+        shellSort(c);
+        System.out.println(Arrays.toString(c));
+        System.out.println("d*========================");
+
+        int []d=a.clone();
+        heapSort(d);
+        System.out.println(Arrays.toString(d));
+        System.out.println("e*========================");
+
+        int []e=a.clone();
+        selectSortBig(e);
+        System.out.println(Arrays.toString(e));
+        System.out.println("f*========================");
+
+        int []f=a.clone();
+        selectSortSmall(f);
+        System.out.println(Arrays.toString(f));
+        System.out.println("g*========================");
+
+        int []g=a.clone();
+        selectSortOP(g);
+        System.out.println(Arrays.toString(g));
+    }
+}
+
