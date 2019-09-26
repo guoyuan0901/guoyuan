@@ -1,0 +1,68 @@
+public class QuickSort {
+    public static void quickSort(int[] array) {
+        quickSortInter(array,0,array.length-1);
+    }//快速排序
+
+    private static void quickSortInter(int[] array, int left, int right) {//left right指的是每个小区间的范围
+        if(left>=right){
+            return ;
+        }
+        int pivotIndex=partition1(array,left,right);//返回使用了partition之后形成的分组的中间值
+        //作为下一次分组的依据
+        quickSortInter(array,left,pivotIndex -1);
+        quickSortInter(array,pivotIndex +1,right);
+
+    }
+
+    private static int partition1(int[] array, int left, int right) {
+        int begin=left;
+        int end=right;
+        int privot=array[begin];//基准值
+        while(begin<end){//直到相等停止
+            while(array[end]>=privot){
+                end--;
+            }
+            while(array[begin]<=privot){
+                begin++;
+            }
+            swap(array,begin,end);
+        }
+        swap(array,left,begin);
+        return begin;
+    }//交换(hoare)
+    private static int partition2(int []array,int left,int right){
+        int privot=array[left];
+        int begin=left;
+        int end=right;
+        while(begin<end) {
+            while (array[end] >= privot) {
+                end--;
+            }
+            array[begin] = array[end];
+            while (array[begin] <= privot) {
+                begin++;
+            }
+            array[end] = array[left];
+        }
+        array[begin] = privot;
+        return begin;
+    }//挖坑填值
+    private static int partition3(int []array,int left,int right){
+        int d=left+1;
+        int privot=array[left];
+        for(int i=left+1;i<=right;i++){
+            if(array[i]<privot){
+                swap(array,i,d);
+                d++;
+            }
+        }
+        swap(array,d-1,left);
+        return d;
+    }//前后遍历
+
+    private static void swap(int[] array, int begin, int end) {
+        int t=array[begin];
+        array[begin]=array[end];
+        array[end]=t;
+    }
+}
