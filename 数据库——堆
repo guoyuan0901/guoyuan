@@ -1,0 +1,57 @@
+二叉树的顺序存储      
+  使用数组保存二叉树结构，方式即将二叉树用层序遍历方式放入数组中。 一般只适合表示完全二叉树，因为非完全二叉树会有空间的浪费。这种方式的主要用法就是堆的表示。        
+一.完全二叉树结点之间与数组下标的关系：
+1.在已知双亲结点的情况：
+   左孩子下标：left=2*parent+1
+   右孩子结点：right=2*parent=2    
+2.已知左孩子或者有孩子双亲结点的下标为：parent=(child-1)/2
+二.堆以及相关操作：
+  堆在逻辑上是一个完全二叉树
+  堆在物理上是保存在数组中
+  二叉树中任意结点的值大于其左子树及右子树的结点，则堆为大堆（大根堆），反之为小堆（小根堆）堆的相关操作  
+1. 向下调整(时间复杂度为O(log(n)))  
+前提：当堆的左右子树都为有序（堆）时，可以对指定结点进行向下调整  
+操作：1. index 如果已经是叶子结点，则整个调整过程结束
+     判断 index 位置有没有孩子
+     因为堆是完全二叉树，没有左孩子就一定没有右孩子，所以判断是否有左孩子
+     因为堆的存储结构是数组，所以判断是否有左孩子即判断左孩子下标是否越界，即 left >= size 越界
+     2. 确定 left 或 right，谁是 index 的最小孩子 min
+        如果右孩子不存在，则 min = left
+        否则，比较 array[left] 和 array[right] 值得大小，选择小的为 min
+     3. 比较 array[index] 的值 和 array[min] 的值，如果 array[index] <= array[min]，则满足堆的性质，调整结束。否则，交换 array[index] 和 array[min] 的值
+     4. 然后因为 min 位置的堆的性质可能被破坏，所以把 min 视作 index，向下重复以上过程 
+代码： public static void shiftDownSmall(int []array,int size,int index) {
+        int left = 2 * index + 1;//根据下标找到左孩子
+        while (left < size) {
+            int right=left+1;
+            int min=left;
+            if(right<size) {//右孩子存在，则与左孩子进行比较 找到最小孩子
+                if (array[min] > array[right]) {
+                    min = right;
+                }
+            }
+            if (array[index] > array[min]) {//如果孩子结点的值小于指定下标 进行交换
+                    swap(array, index, min);
+                    index = min;//更新节点的值
+                    left = 2 * index + 1;//继续计算结点下标 进行向下调整
+            }else
+                    break;
+        }
+    }//对给定下标位置元素进行小堆排序 
+2.建堆（时间复杂度为O(n*log(n)))  
+前提：左右子树无序 即不是堆  
+操作：从二叉树的之后一个叶子结点开始，找到其双亲结点，倒着往回依次对其进行向下调整  
+代码：public static void createHeapSmall(int []array,int size){
+        for(int i=(size-2)/2;i>=0;i--)
+        {
+            shiftDownSmall(array,size,i);
+        }
+    }//建小堆
+    // 因为堆本身就是数组 而此时的堆是无序的 不是小堆 也不是大堆
+    // 建堆需要从最后一个节叶子点的双亲结点开始建堆
+    public static void createHeapBig(int []array,int size){
+        for(int i=(size-2)/2;i>=0;i--)
+        {
+            shiftDownBig(array,size,i);
+        }
+    }//建大堆
