@@ -1,0 +1,104 @@
+import java.util.Comparator;
+class PersonNameComparator implements Comparator<Person> {
+    @Override
+    public int compare(Person o1, Person o2) {
+        return o1.name.compareTo(o2.name);
+    }
+}//定义了一个用名字类作为排序准则的用来实现Comparator接口
+// 实现非自然顺序排列
+class PersonHeightComparator implements Comparator<Person> {
+    @Override
+    public int compare(Person o1, Person o2) {
+        return (int)((o1.height-o2.height)*100);
+    }
+}//定义了一个用身高类作为排序准则的用来实现Comparator接口
+// 实现非自然顺序排列
+class ComplexComparator implements Comparator<Person> {
+    @Override
+    public int compare(Person o1, Person o2) {
+        if (o1.height < o2.height) {
+            return -1;
+        } else if (o1.height > o2.height) {
+            return 1;
+        }
+
+        if (o1.weight < o2.weight) {
+            return -1;
+        } else if (o1.weight > o2.weight){
+            return 1;
+        }
+
+        int r = o1.name.compareTo(o2.name);
+        if (r != 0) {
+            return r;
+        }
+
+        return o1.age - o2.age;
+    }
+}//将所有方式的比较方法进行了整合
+public class Person implements Comparable<Person> {//<>中存放的是比较的类型
+    public String name;//本身自带comparable借口 所以实现自然顺序
+    public int age;//自然顺序
+    public double height;
+    public double weight;
+
+    @Override
+    public int compareTo(Person o) {
+        //return age - o.age;//自己规定 在这我认为小的在前（年龄小的排前面）
+
+        if (age < o.age) {
+            return -1;
+        } else if (age == o.age) {
+            return 0;
+        } else
+            return 1;
+    }
+
+    //将此对象与指定对象（this指向的和o指向的)
+    //返回值为正数 负数 0；
+    public static void main(String[] args) {
+        Person p = new Person();
+        Person q = new Person();
+        p.name = "Jin";
+        p.age = 28;
+        p.height = 1.78;
+        q.name = "JK";
+        q.age = 23;
+        q.height = 1.77;
+        int ret = p.compareTo(q);//自然顺序不用自定义比较器
+        if (ret < 0)
+            System.out.printf("%s小于%s", p.name, q.name);
+        else if (ret == 0)
+            System.out.printf("%s等于%s", p.name, q.name);
+        else
+            System.out.printf("%s大于%s", p.name, q.name);
+        System.out.println("===========================================");
+
+        Comparator<Person> comparator1 = new PersonNameComparator();//非自然顺序需要自己定义比较器 
+        // 定义了一个属于comparator接口的对象
+        //再调用相关接口的比较方法
+        System.out.println("按照名字比较");
+        int s = comparator1.compare(p, q);
+        if (s < 0)
+            System.out.printf("%s小于%s", p.name, q.name);
+        else if (s == 0)
+            System.out.printf("%s等于%s", p.name, q.name);
+        else
+            System.out.printf("%s大于%s", p.name, q.name);
+        System.out.println("========================================");
+
+        Comparator<Person> comparator2 = new PersonHeightComparator();//非自然顺序需要自己定义比较器 
+        // 定义了一个属于comparator接口的对象
+        //再调用相关接口的比较方法
+        System.out.println("按照身高比较");
+        int val = comparator2.compare(p, q);
+        if (val < 0)
+            System.out.printf("%s小于%s", p.name, q.name);
+        else if (val == 0)
+            System.out.printf("%s等于%s", p.name, q.name);
+        else
+            System.out.printf("%s大于%s", p.name, q.name);
+    }
+}
+
+
