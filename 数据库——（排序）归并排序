@@ -1,0 +1,113 @@
+import java.util.Arrays;
+public class mergeSort {
+    public static void mergeSort(int[] array){
+        mergeSortInter(array,0,array.length);
+    }
+
+    private static void mergeSortInter(int[] array, int low, int high) {
+        if(low>=high-1)
+            return;//小区间中只有一个元素时返回
+        int mid=(low+high)/2;
+        mergeSortInter(array,low,mid);
+        mergeSortInter(array,mid,high);//二分法分割数组
+        merge(array,low,mid,high);//对小区间进行排序
+    }
+
+    private static void merge(int[] array, int low, int mid, int high) {
+        int length = high -low;
+        int[] arr = new int[length];//新的数组储存合并好的有序的数字 
+        // 长度为合并的小区间的长度
+        int i = low;
+        int j = mid;
+        int k = 0;//新的数组内元素的下标
+        while (i < mid && j < high) {//下标不越界的情况下
+            if (array[i] <= array[j]) {
+                arr[k++] = array[i++];//比较两个小区间合并是的起始坐标 小于将左边添加到数组中
+            } else
+                arr[k++] = array[j++];//大于 将右边加到数组中
+        }
+        while (i < mid)
+            arr[k++] = array[i++];
+        while (j < high)
+            arr[k++] = array[j++];//以上两种情况为其中一方数组空了 直接将剩余元素加到数组中
+        for (int x = 0; x < arr.length; x++) {
+            array[low + x] = arr[x];//将新数组中的值在拷贝回原数组        
+        }
+    }//归并排序
+    //普通版本：每次合并时都需要开辟空间
+
+    //优化版本：每次进行归并时公用一个空间
+    //其他与上例一致
+    public static void mergeSort2(int[] array){
+        int []arr=new int [array.length];//定义一个与数组长度一致的数组 用来存储每次合并的数据
+        //因为合并数组最长为array.length
+        mergeSortInter2(array,0,array.length,arr);
+    }
+
+    private static void mergeSortInter2(int[] array, int low, int high,int[]arr) {
+        if(low>=high-1)
+            return;
+        int mid=(low+high)/2;
+        mergeSortInter2(array,low,mid,arr);
+        mergeSortInter2(array,mid,high,arr);//分割数组
+        merge2(array,low,mid,high,arr);//对小区间进行排序
+    }
+
+    private static void merge2(int[] array, int low, int mid, int high,int[]arr) {
+        int length = high -low;
+        int i = low;
+        int j = mid;
+        int k = 0;
+        while (i < mid && j < high) {
+            if (array[i] <= array[j]) {
+                arr[k++] = array[i++];
+            } else
+                arr[k++] = array[j++];
+        }
+        //当有一个小数组遍历完之后为空的情况
+        //需要将剩余数组元素直接搬过来
+        while (i < mid)
+            arr[k++] = array[i++];
+        while (j < high)
+            arr[k++] = array[j++];
+        for (int x = 0; x < length; x++) {
+            array[low + x] = arr[x];
+        }
+    }
+    //第三版非递归版本（利用循环 不压栈）
+    public static void mergeSort3(int[] array) {
+        for (int i = 1; i < array.length; i = i * 2)
+        {//递归的层数（log(n))
+            for (int j = 0; j < array.length; j = j + 2 * i)
+            {//每次需要进行合并的两个数组的起始位置（每次都从0开始）
+                int low = j;//需要进行合并的数组的low位置
+                int mid = j + i;//////需要进行合并的数组mid位置为当前low+层数(推导得出）
+                if (mid >= array.length)
+                {
+                    continue;
+                }//特殊情况;最后一个组只有一个元素
+                int high = mid + i;//左闭右开
+                if (high > array.length)
+                {
+                    high = array.length;
+                }//特殊情况：合并最后一个数组时high超出了 需要将它拉回来
+                merge(array, low, mid, high);//进行排序
+            }
+        }
+    }
+
+    public static void main(String[] args) {
+        int []a={6,1,2,5,9,3,4,7,8};
+        mergeSort(a);
+        System.out.println(Arrays.toString(a));
+
+        int []b=a.clone();
+        mergeSort2(b);
+        System.out.println(Arrays.toString(b));
+
+        int []c=a.clone();
+        mergeSort3(c);
+        System.out.println(Arrays.toString(c));
+    }
+
+}
