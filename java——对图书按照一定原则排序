@@ -1,0 +1,108 @@
+import javax.xml.soap.Node;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+//利用comparator 和 comparable接口实现京东的书籍排名
+class BookName implements Comparator<Book> {
+    @Override
+    public int compare(Book b, Book o) {
+        return b.BookName.compareTo(o.BookName);
+    }
+}
+class Auther implements Comparator<Book>{
+
+    @Override
+    public int compare(Book b, Book o) {
+        return b.Author.compareTo(o.Author);
+    }
+}
+class Price implements Comparator<Book>{
+    boolean asc;//价格是升序还是降序（人为规定）
+    //true 价格从小到大
+    //false 价格从大到小
+
+    public Price(boolean asc) {
+        this.asc = asc;
+    }
+    @Override
+    public int compare(Book b, Book o) {
+        if(asc){
+            return b.Price-o.Price;
+        }else
+            return o.Price-b.Price;
+    }
+}
+
+class Sales implements Comparator<Book> {
+    @Override
+    public int compare(Book b, Book o) {
+        return b.Sales - o.Sales;
+    }
+}
+
+public class Book implements Comparable<Book> {
+    public String BookName;//书名
+    public String Author;//作者
+    public int Price;//价格
+    public int Sales;//销量
+    public String ISBN;//书号 默认为自然顺序
+    public Book(String ISBN, String Name, String author, int price, int sales) {
+        this.ISBN = ISBN;
+        this.BookName = Name;
+        this.Author = author;
+        this.Price = price;
+        this.Sales = sales;
+    }//Book类的构造方法
+
+    @Override
+    public String toString() {
+        return "Book{" +
+                "BookName='" + BookName + '\'' +
+                ", Author='" + Author + '\'' +
+                ", Price=" + Price +
+                ", Sales=" + Sales +
+                ", ISBN='" + ISBN + '\'' +
+                '}';
+    }
+
+    @Override
+    public int compareTo(Book b) {
+        return ISBN.compareTo(b.ISBN);
+    }//接口中的方法覆写（自然顺序）
+    public static void main(String[] args) {
+        List<Book> books = new ArrayList<>();
+        books.add(new Book("9787201151304", "从一到无穷大", "[美] 乔治·伽莫夫", 1600, 400));
+        books.add(new Book("9787020147465", "应物兄", "李洱", 7900, 1668));
+        books.add(new Book("9787220107085", "如何写甲骨文", "日本文字文化机构", 8800, 23));
+        books.add(new Book("9787521706635", "敌人与邻居", "[英]伊恩·布莱克", 10800, 3));
+        books.add(new Book("9787301280751", "法国大革命 (第2版)", "布兰宁(T.C.W.Blanning)", 4500, 1993));
+        //输入数据 用于比较
+        List<Book> copy;//数组也可以
+
+        // 按自然顺序（ISBN）排序
+        System.out.println("按 ISBN 排序：");
+        copy = new ArrayList<>(books);//将books中的数据拷贝一份
+        // 不拷贝的话 其他方法进行调用的时候数组已经有序了 不好做判断
+        Sort.sort(copy);
+        System.out.println(copy);
+
+        // 按书名排序
+        System.out.println("按 书名 排序：");
+        copy = new ArrayList<>(books);
+        Sort.sort(copy, new BookName());//（非自然顺序调用方法时还需传入比较器对象）
+        System.out.println(copy);
+
+        // 按价格排序-从小到大
+        System.out.println("按 价格-从小到大 排序：");
+        copy = new ArrayList<>(books);
+        Sort.sort(copy, new Price(true));//人为规定true为价格按照从小到大排列
+        System.out.println(copy);
+
+        // 按价格排序-从大到小
+        System.out.println("按 价格-从大到小 排序：");
+        copy = new ArrayList<>(books);
+        Sort.sort(copy, new Price(false));//人为规定false为价格按照从大到小排列
+        System.out.println(copy);
+    }
+}
