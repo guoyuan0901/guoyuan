@@ -1,0 +1,40 @@
+import javax.xml.soap.Node;
+import java.util.Comparator;
+import java.util.List;
+
+public class Sort {
+        int val;
+        Node next;//Sort类的属性
+        public Sort(int val){
+            this.val=val;
+        }//构造方法
+
+        public static void sort(List<Book> books, Comparator<Book> comparator) {
+            for (int i = 1; i < books.size(); i++) {//排序需要循环的次数
+                Book book = books.get(i);
+                int j = i - 1;
+                for (; j >= 0 && comparator.compare(books.get(j),book)>0; j--) {//遍历有序区间与无序区间比较
+                    books.set(j + 1, books.get(j));//如果无序区间的值小于有序区间，则将无需区间的数字后移 将其插入
+                }
+                books.set(j + 1, book);//等同于array[j+1]=book;
+                //因为最后循环退出的时候j--了 而真正要将无序区间插入的下标在后一个
+            }
+        }//带比较器的方法（用来实现非自然顺序的排序）
+    //在这里我写的是直接插入排序 也可以写其他的
+
+        public static void sort(List<Book> books) {
+            for (int i = 1; i < books.size(); i++) {
+                Book book = books.get(i);
+                int j = i - 1;
+                for (; j >= 0 && books.get(j).compareTo(book)>0; j--) {
+                    books.set(j + 1, books.get(j));
+                }
+                books.set(j + 1, book);
+            }
+        }
+}
+
+
+
+
+
