@@ -99,6 +99,6 @@ public class Person implements Comparable<Person> {//<>中存放的是比较的�
         else
             System.out.printf("%s大于%s", p.name, q.name);
     }
-}
+}//
 
 
