@@ -1,0 +1,31 @@
+//给定一个非空整数数组，除了某个元素只出现一次以外，其余每个元素均出现两次。找出那个只出现了一次的元素
+//key-value模型 key不允许重复，value可以重复
+方法1：
+//这里的key代表元素 value代表出现的次数
+class Solution {
+    public int singleNumber(int[] nums) {
+     Map<Integer,Integer> map=new TreeMap<>();
+        for(int n :nums){
+            int c=map.getOrDefault(n,0);//第一次查找时当前map为空，返回默认值0；第二次查找时若元素与第一个相同，返回他所对应的次数为1
+            map.put(n,c+1);//设置数组元素及所出现的次数 第一次为1
+        }
+        for (Map.Entry<Integer, Integer> e : map.entrySet()) {
+            int n=e.getKey();
+            int c=e.getValue();
+            if(c==1)//将出现次数为1的key1值返回
+                return n;
+        }
+        return -1;
+    }
+}
+方法2:
+//利用任何数与0异或均为任何数的原则
+//将所有元素进行异或 重复的元素异或之后为0 最后剩余的就是出现一次的
+class Solution {
+    public int singleNumber(int[] nums) {
+        int result=0;
+        for(int i=0;i<nums.length;i++)
+            result=result^nums[i];
+        return result;
+    }
+}
