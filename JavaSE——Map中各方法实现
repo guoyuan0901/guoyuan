@@ -1,0 +1,30 @@
+import java.util.Map;
+import java.util.TreeMap;
+
+public class MapDemo {
+    public static void main(String[] args) {
+        Map<String,String> map=new TreeMap<>();
+        System.out.println(map.get("田柾国"));//打印null 刚开始树种无值 所以打印的默认值
+        System.out.println(map.getOrDefault("田柾国","77777777") );//同样打印默认值 但是此时的默认值指定为7777777
+        String oldValue=map.put("田柾国","20000101");//设置key对应的value值 如果此时不存在则将其插入
+        System.out.println(oldValue);//null
+        oldValue=map.put("田柾国","19970901");//这时的对应key已经存在 所以更新value 值
+        System.out.println(oldValue);//20000101
+        map.put("金硕珍","19921204");
+        map.put("朴智旻","19951013");
+        map.put("金泰亨","19951230");
+        System.out.println(map.keySet());//打印所有key值
+        for(String key:map.keySet()){
+            System.out.println(key);
+        }//依次打印二叉树中结点的key值
+        for (String value : map.values()) {
+            System.out.println(value);
+        }//依次打印二叉树中结点的value值
+        for (Map.Entry<String, String> entry : map.entrySet()) {
+            System.out.println(entry.getKey() + " = " + entry.getValue());
+        }//依次打印二叉树中结点的key-value值 按照指定形式进行打印
+        System.out.println(map.containsKey("田柾国"));//判断树中是否包含key值
+        System.out.println(map.containsKey("金硕珍"));
+        System.out.println(map.containsValue("19970901"));
+    }
+}
