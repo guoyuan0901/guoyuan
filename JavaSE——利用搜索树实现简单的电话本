@@ -1,0 +1,71 @@
+//见一个key-value类型模型的电话本
+public class Contact {
+    public static class Node {
+        String name;//姓名
+        String phone;//电话
+        Node left;
+        Node right;
+
+        public Node(String name, String phone) {
+            this.name = name;
+            this.phone = phone;
+        }
+    }
+
+    private Node root = null;
+
+    public String Search(String name) {
+        Node cur = root;
+        int r = name.compareTo(cur.name);//string类型本身存在Comparable 所以直接使用compareTo方法
+        while (cur != null) {
+            if (r == 0)
+                return cur.phone;
+            else if (r < 0)
+                cur = cur.left;
+            else
+                cur = cur.right;
+        }//遍历查找
+        return null;
+    }//查询联系人的电话号
+
+    public String Update(String name, String phone) {
+        Node cur = root;
+        int r = name.compareTo(cur.name);
+        while (cur != null) {
+            if (r == 0) {
+                String oldPhone = cur.phone;
+                cur.phone = phone;
+                return cur.phone;//更新电话号码
+            } else if (r < 0) {
+                cur = cur.left;
+            } else {
+                cur = cur.right;
+            }
+        }
+        return null;
+    }//更新联系人的电话号码
+
+    public boolean insert(String name, String phone) {
+        Node cur = root;
+        Node parent = null;//用来保存需要插入结点双亲结点 以便查找该节点 进行操作
+        int r = name.compareTo(cur.name);
+        while (cur != null) {
+            if (r == 0) {
+                return false;
+            } else if (r < 0) {
+                parent = cur;
+                cur = cur.left;
+            } else {
+                parent = cur;
+                cur = cur.right;
+            }
+        }//找到该节点及其双亲结点
+        Node node = new Node(name, phone);//对插入值进行包装到结点
+        if (parent.left == null)
+            parent.left = node;
+        else
+            parent.right = node;
+        return true;
+    }//插入新的联系人
+}
+
