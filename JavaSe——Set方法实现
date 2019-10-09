@@ -1,0 +1,30 @@
+import java.util.Set;
+import java.util.TreeSet;
+
+public class SetDemo {
+    public static void main(String[] args) {
+        Set<String> bucket = new TreeSet<>();
+        bucket.add("苹果");
+        bucket.add("香蕉");
+        bucket.add("橘子");
+        bucket.add("石榴");
+        bucket.add("柿子");
+        System.out.println(bucket);//显示所有节点
+        System.out.println(bucket.size());//结点个数5
+        System.out.println(bucket.add("橘子"));//false因为不允许重复
+        System.out.println(bucket);
+        System.out.println(bucket.size());//5
+        System.out.println(bucket.remove("苹果"));//true
+        System.out.println(bucket);
+        System.out.println(bucket.size());//4
+        System.out.println(bucket.remove("火龙果"));//false因为不存在
+        System.out.println(bucket);
+        System.out.println(bucket.size());//4
+        System.out.println(bucket.contains("香蕉"));//判断香蕉是否存在
+        bucket.clear();//清空
+        System.out.println(bucket);
+        System.out.println(bucket.size());//0
+    }
+}
+
+
