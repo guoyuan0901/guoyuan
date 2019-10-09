@@ -1,0 +1,150 @@
+//分别实现Map的三个操作查询 插入 删除
+//本树采用key模型
+//二叉搜索树又称二叉排序树，它或者是一棵空树**，或者是具有以下性质的二叉树:
+//若它的左子树不为空，则左子树上所有节点的值都小于根节点的值
+//若它的右子树不为空，则右子树上所有节点的值都大于根节点的值
+//它的左右子树也分别为二叉搜索树
+public class BinarySearchTree {
+    public static class Node{
+        int key;
+        Node left;
+        Node right;
+        public Node(int key){
+            this.key=key;
+        }
+    }
+    private Node root=null;
+    public Node Search(int key){
+        Node cur=root;
+        while(cur!=null){
+            if(key==cur.key)
+                return cur;
+            else if(key<cur.key)
+                cur=cur.left;//持续查找其左子树
+            else
+                cur=cur.right;//持续查找其右子树
+        }//遍历二叉树与需要查找的结点进行比较
+        return null;
+    }//查找
+    //认为true为插入成功
+    //false为插入失败
+    //因为搜索树结点不允许重复 所以插入成功则需要找到空结点 插入失败则表明该节点已经存在
+    public boolean insert(int key){
+        Node cur=root;
+        Node parent=null;//用来查找要进行插入的双亲结点位置
+        if(root==null){
+            root=new Node(key);
+            return true;
+        }//根结点为空 创建结点作为根返回true
+        while(cur!=null){
+            if(key==cur.key)
+                return false;//不允许出现重复
+            else if(key<cur.key) {
+                parent = cur;
+                cur = cur.left;//始终保持双亲结点在当前节点前一个位置
+            }
+            else {
+                parent = cur;
+                cur = cur.right;
+            }
+        }//找到了一个空结点并已经记录了其双亲结点
+        Node node =new Node(key);
+        //判断进行插入的位置
+        if(key<parent.key)
+            parent.left=node;
+        else
+            parent.right=node;
+        return true;
+    }//插入
+    //删除需要知道删除位置的双亲结点
+    /*1. cur.left == null
+            1. cur 是 root，则 root = cur.right
+            2. cur 不是 root，cur 是 parent.left，则 parent.left = cur.right
+            3. cur 不是 root，cur 是 parent.right，则 parent.right = cur.right
+     2. cur.right == null
+            1. cur 是 root，则 root = cur.left
+            2. cur 不是 root，cur 是 parent.left，则 parent.left = cur.left
+            3. cur 不是 root，cur 是 parent.right，则 parent.right = cur.left
+     3. cur.left != null && cur.right != null
+     需要进行替换法 用其左子树的最大值或者右子树的最小值与需要删除的结点进行替换 在进行删除
+*/
+    public boolean remove(int key) {
+        Node cur=root;
+        Node parent=null;
+        while(cur!=null){
+            if(key==cur.key)
+                removeNode(parent,cur);//主要删除算法
+            else if(key<cur.key)
+                cur=cur.left;
+            else
+                cur=cur.right;
+        }
+        return false;
+    }
+
+    private void removeNode(Node parent, Node cur) {
+        if(cur.left==null) {
+            if(cur==parent)
+                parent=cur.right;
+            else if(parent.left==cur) {
+                parent.left=cur.right;
+            } else
+                parent.right=cur.right;
+        }//要删除结点的左子树为空的情况
+        else if(cur.right==null) {
+            if(cur==parent)
+                parent=cur.left;
+            else if(parent.left==cur)
+                parent.left=cur.left;
+            else
+                parent.right=cur.left;
+        }//右子树为空情况
+        else {
+            Node goatParent=null;//右子树中最小值的双亲结点
+            Node goat= cur.right;//从需要删除结点的右子树开始查找最小的值
+            while(goat!=null) {
+                goatParent=goat;
+                goat = goat.left;
+            }//遍历右子树查找最小值 并更新双亲结点
+            cur.key=goat.key;
+            if(goatParent.left==goat)
+                goatParent.left=goat.right;//证明其根结点的右子树不是单支树 直接进行替换 删除
+            else
+                goatParent.right=goat.right;//最小值出现在根结点的下一节点
+        }
+    }//删除
+
+    private static void inOrderInsert(Node root) {
+        if(root!=null){
+            inOrderInsert(root.left);
+            System.out.println(root.key);
+            inOrderInsert(root.right);
+        }
+    }//中序遍历
+
+    private static void preOrderInsert(Node root) {
+        if(root!=null){
+            System.out.println(root.key);
+            preOrderInsert(root.left);
+            preOrderInsert(root.right);
+        }
+    }//前序遍历
+
+    public static void main(String[] args) {
+        BinarySearchTree tree=new BinarySearchTree() ;
+        int []keys={3,9,7,4,1,6,2,8,5};
+        for(int key:keys){
+            System.out.println(tree.insert(key) );
+        }
+        System.out.println("插入重复数据：");
+        System.out.println(tree.insert(7) );//插入失败 不允许出现重复结点
+        System.out.println("前序遍历：");
+        preOrderInsert(tree.root);
+        System.out.println("中序遍历：");
+        inOrderInsert(tree.root);
+        System.out.println("===========================");
+        System.out.println(tree.Search(7).key);
+        System.out.println(tree.Search(8).key);
+        System.out.println(tree.Search(5).key);
+    }
+}
