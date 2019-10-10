@@ -1,0 +1,21 @@
+//给定字符串J 代表石头中宝石的类型，和字符串 S代表你拥有的石头。 
+//S为石头的类型，求石头中宝石的个数。
+//要求：J 中的字母不重复，J 和 S中的所有字符都是字母。字母区分大小写，因此"a"和"A"是不同类型的石头。
+//示例 1:
+
+//输入: J = "aA", S = "aAAbbbb"
+//count=3；
+class Solution {
+    public int numJewelsInStones(String J, String S) {
+        Set<Character> set=new TreeSet();
+        for(char j:J.toCharArray()){//将字符转换为字符数组
+            set.add(j);//依次添加到set搜索树中
+        }
+        int count=0;
+        for(char s:S.toCharArray()){
+            if(set.contains(s))//判断字符s是否在set树中
+                count++;
+        }
+        return count;
+    }
+}
