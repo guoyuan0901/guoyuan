@@ -1,0 +1,74 @@
+问题：给一非空的单词列表，返回前 k 个出现次数最多的单词。
+返回的答案应该按单词出现频率由高到低排序。如果不同的单词有相同出现频率，按字母顺序排序。
+解决方法：1.建立可以为字符串 value为出现次数的二叉树
+         2.将出现次数一样的字符串放在同一个列表中 并对字符串进行排序
+         3.依次访问每个列表 得出所需要的字符
+import com.sun.javafx.collections.MappingChange;
+import java.util.*;
+public class jk {
+    public static  Map<String,Integer> calcCount(String []words){
+        Map<String,Integer> map=new TreeMap<>() ;
+        for(String s:words){
+             int count=map.getOrDefault(s,0);//字符串重复出现时 方法返回其对应的value值
+            map.put(s,count+1);
+        }//构建二叉树 key为字符串 value为每个字符串出现的次数
+        return map;
+    }//计算每个字符串出现的次数
+    public static  Map<Integer,List<String>> calcCountOfWords(Map<String,Integer>map){
+        Map<Integer,List<String>> ret=new TreeMap<>() ;
+        for(Map.Entry<String,Integer> e:map.entrySet()) {//返回所有key-value的映射关系
+            String word = e.getKey();//字符串
+            int count = e.getValue();//出现次数
+            if (!ret.containsKey(count)) {//在ret中 key为次数 value 为出现相同次数的字符列表
+                // 如果出现次数已经存在 直接将其插入到对应字符列表
+                //否则 返回一个空的列表
+                ret.put(count, new ArrayList<>());
+                ret.get(count).add(word);
+            }
+
+            else
+                ret.get(count).add(word);//将字符插入对应的列表中
+            //get(count)的到count对应的字符串列表
+        }
+        return ret;
+    }//将出现相同次数的字符串放在同一个列表中 key为出现次数 value为出现次数相同字符串
+    private static class IntegerComparator implements Comparator<Integer> {
+        @Override
+        public int compare(Integer o1, Integer o2) {
+            return o2-o1;
+        }
+    }
+
+    public static void main(String[] args) {
+        String words[]={"the", "day", "is", "sunny", "is", "the", "the", "the", "sunny", "is", "is"};
+        int k=3;
+        Map<String,Integer> wordCount=calcCount(words);
+        System.out.println(wordCount);//打印每个字符出现次数
+        Map<Integer,List<String>> countToWordLists =calcCountOfWords(wordCount);
+        System.out.println(countToWordLists );//打印出现次数相同的列表
+        Set<Integer> counts=countToWordLists.keySet();
+        System.out.println(counts);//打印出现次数
+        List<Integer> countsList = new ArrayList<>(counts);
+        Collections.sort(countsList, new IntegerComparator());
+        System.out.println(countsList);//将打印次数按照从大到小排序
+        List<String> list=new ArrayList<>();//用来返回所需要的出现次数较多的字符串
+        int i=0;//用来遍历
+        int n=0;//已经找出的字符串数
+        while(n<k){
+            int num=countsList .get(i);
+            i++;
+            List<String> index=countToWordLists.get(num);
+            Collections.sort(index);
+            if(index.size()<=k-n)
+            {
+               list.addAll(index);
+               n+=index.size();
+            }
+            else {
+                list.addAll(index.subList(0, k - n));
+                n += (k - n);
+            }
+        }
+        System.out.println(list);
+    }
+}
