@@ -1,0 +1,49 @@
+1复制原链表结点作为结点对应的value值
+2.复制随机指针指向
+public class copyRandomList {
+    public static class Node{
+        int val;
+        Node next;
+        Node random;
+        public Node() {
+            this.val=val;
+        }
+    }
+    private class NodeComparator implements Comparator<Node>{
+        @Override
+        public int compare(Node o1, Node o2) {
+            return o1.val-o2.val;
+        }
+    }
+    public Node copyRandomList1(Node head) {
+        Map<Node, Node> map = new TreeMap<>(new NodeComparator());
+        //建立新的二叉树key为原链表 value为复制的链表
+        Node newHead = null;//复制后的链表头结点
+        Node newLast = null;
+        Node cur = head;
+        while (cur != null) {
+            Node node = new Node();
+            node.val = cur.val;
+            if (newHead == null) {
+                newHead = node;
+            } else
+                newLast.next = node;
+            newLast = node;
+            //复制一份链表作为二叉树的value值
+            map.put(cur, node);
+            cur = cur.next;
+        }
+        cur = head;
+        Node node = newHead;
+        while (node != null) {
+            if (cur.random != null) {
+                node.random = map.get(cur.random);//设置新链表结点的随机结点
+            }else
+                node.random = null;
+            cur = cur.next;
+            node = node.next;
+        }
+        return newHead;
+    }
+}
+
