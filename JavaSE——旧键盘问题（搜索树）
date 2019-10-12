@@ -1,0 +1,36 @@
+问题描述：
+输入在2行中分别给出应该输入的文字、以及实际被输入的文字。每段文字是不超过80个字符的串，由字母A-Z（包括大、小写）、数字0-9、
+以及下划线“_”（代表空格）组成。题目保证2个字符串均非空。
+例如：
+按照发现顺序，在一行中输出坏掉的键。其中英文字母只输出大写，每个坏键只输出一次。题目保证至少有1个坏键。
+示例1：
+输入
+    7_This_is_a_test
+    _hs_s_a_es
+输出
+    7TI
+//方法：在错误序列中找不在正确序列中的字母
+//是小写则转换为大写字母 且不重复
+import java.util.*;
+public class BrokenKeyborad {
+    public static void main(String[] args) {
+        Scanner input=new Scanner(System.in);
+        String right=input.nextLine();
+        String wrong=input.nextLine();
+        Set<Character> r=new TreeSet<>();//为错误序列建立二叉树
+        for(char c:wrong.toCharArray()) {
+            r.add(c);
+        }
+        Set<Character> broken = new TreeSet<>();
+        for (char c : right.toCharArray()) {
+            if (!r.contains(c)) {//不在错误序列中则表示是坏的键盘
+                c = Character.toUpperCase(c);//将字母转换为大写字母
+                if (!broken.contains(c)) {//若已有的错误序列中没有这个字母 输出 并加入错误序列
+                    System.out.print(c);
+                    broken.add(c);
+                }//除去重复的字母
+            }
+        }
+        System.out.println();
+    }
+}
