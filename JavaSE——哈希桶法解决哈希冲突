@@ -1,0 +1,57 @@
+//哈希桶是指将数组下标一样的元素放在同一个链表中 表头为第一次出现在该下表元素 
+public class HashBucket {
+    public class Node{
+        int key;//在数组中存储的下标
+        int value;//真实值
+        Node next;
+
+        public Node(int key, int value) {
+            this.key=key;
+            this.value=value;
+        }
+    }
+    private int size=0;
+    private Node []array=new Node[8];//哈希表数组
+    private static final double Load_Factor=0.75;//负载因子
+    public int get(int key){
+        int index=key%array.length;//元素在数组中的下标（除留余数法）
+        Node head=array[index];//下标相同的元素组成的链表头结点
+        for(Node cur=head;cur!=null;cur=cur.next){
+            if(cur.key==key)
+                return cur.value;
+        }
+        return -1;
+    }//遍历哈希表查找指定结点
+    public int put(int key,int value){
+        int index=key%array.length;
+        for(Node cur=array[index];cur!=null;cur=cur.next ) {
+            if (cur.key == key) {
+                int oldvalue = cur.value;
+                cur.value = value;
+                return oldvalue;
+            }//若存在元素 则更新值
+        }
+        Node node=new Node(key,value);
+        node.next=array[index];
+        array[index]=node;//将节点进行头插 而头结点在数组中 其他均在链表中
+        size++;
+        if(size>=Load_Factor)
+            resize();//大于阈值 即发生冲突概率变大
+        return -1;//（不存在时做插入 并返回null 这里int型返回-1）
+    }
+    private double loadFactor(){
+        return size*1.0/array.length;
+    }
+    private void resize() {
+        Node[] newArray = new Node[array.length * 2];//数组长度扩大两倍
+        for (int i = 0; i < array.length; i++) {//遍历哈希表
+            Node next;//保存cur.next 和下面那句一样
+            for (Node cur = array[i]; cur != null; cur = next) {//遍历哈希表对应下标中的链表
+                next = cur.next;
+                int index = cur.key % newArray.length;
+                cur.next = newArray[index];
+                newArray[index] = cur;//将链表中结点进行重新哈希 数组长度改变 有可能下标发生变化
+            }
+        }
+    }
+}
