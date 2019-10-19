@@ -1,0 +1,64 @@
+//自定义类型的哈希表在实现时 需要覆写hashcode()及equals()方法 否则得到的知识不一样的
+import java.util.Objects;
+import java.util.HashMap;
+class Person {
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Person)) return false;
+        Person demo = (Person) o;
+        return Objects.equals(sn, demo.sn);
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(sn);
+    }
+
+    String sn;//学号
+
+    public Person(String sn) {
+        this.sn = sn;
+    }
+}
+public class HashBucket1<K,V> {
+    class Node<K, V> {
+        K key;
+        V value;
+        Node<K, V> next;
+
+        Node(K key, V value) {
+            this.key = key;
+            this.value = value;
+        }
+    }
+    private Node<K, V>[] array = (Node<K, V>[]) new Node[8];//强制转换（泛型不可以定义数组)
+    private int size = 0;
+    public V get(K key) {
+        //key变为int类型
+        //key.hashcode() java 设计出来转换node为int类型
+        int hash = key.hashCode();//hashCode进行转型 转为int型
+        int index = hash % array.length;
+        Node<K,V> head = array[index];
+        for (Node<K, V> cur = head; cur != null; cur = cur.next) {
+            if (cur.key.equals(key)) {
+                return cur.value;
+            }
+        }
+        return null;
+    }
+    public void main(String[] args) {
+        HashBucket1<Person, String> hash = new HashBucket1<>();
+        Person p = new Person("113");
+        Person q = new Person("113");
+        System.out.println(p.hashCode());
+        System.out.println(q.hashCode());
+        //hash.put(p, "陈沛鑫");
+        String name = hash.get(q);
+        //hash.get(p);
+    }
+}
+
+
