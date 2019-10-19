@@ -22,6 +22,23 @@ public class HashBucket {
         }
         return -1;
     }//遍历哈希表查找指定结点
+    public int move(int key){
+        int index=key%array.length;
+        Node head=array[index];
+        if(head!=null&&key==head.key) {//如果链表的头结点值等于要删除的结点 则将头结点删除 返回其值
+            array[index] = array[index].next;//更改头结点
+            return head.value;
+        }//头删
+        Node prev=null;//需要删除结点的前驱结点
+        for(Node cur=head;cur!=null;cur=cur.next){//遍历链表 查找并删除
+            if(cur.key==key){
+             prev.next=cur.next;
+             return cur.value;
+            }
+            prev=cur;
+        }
+        return -1;
+    }//删除并返回value
     public int put(int key,int value){
         int index=key%array.length;
         for(Node cur=array[index];cur!=null;cur=cur.next ) {
@@ -48,10 +65,11 @@ public class HashBucket {
             Node next;//保存cur.next 和下面那句一样
             for (Node cur = array[i]; cur != null; cur = next) {//遍历哈希表对应下标中的链表
                 next = cur.next;
-                int index = cur.key % newArray.length;
-                cur.next = newArray[index];
+                int index = cur.key % newArray.length;//新的下标
+                cur.next = newArray[index];//哈希表中存在的不是结点而是链表的头结点指针
                 newArray[index] = cur;//将链表中结点进行重新哈希 数组长度改变 有可能下标发生变化
             }
         }
+        array=newArray;
     }
 }
