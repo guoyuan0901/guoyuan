@@ -1,0 +1,38 @@
+//输入: 
+//["900 google.mail.com", "50 yahoo.com", "1 intel.mail.com", "5 wiki.org"]
+//输出: 
+//["901 mail.com","50 yahoo.com","900 google.mail.com","5 wiki.org","5 org","1 intel.mail.com","951 com"]
+//901次是因为后面intel.mail.com中mail.com又出现了一次
+1.先将数字与字符用空格分开
+2.在使用.将字符之间分开（注意：.作为分隔符时，需要加\\,"\\.")
+3.将分割的字符按照顺序进行排列组合 并计算出现次数（利用树计算）
+import java.util.*;
+//子域名访问计数
+public class subdomainVisits {
+    public static void main(String[] args) {
+        Map<String, Integer> map = new HashMap<>();
+        String[] cpdomains = {"900 jk", "50 jimin.jin", "40 jin", "30 v"};
+        for (String cpdomain : cpdomains) {
+            String[] a = cpdomain.split(" ");//将字符与数字分割
+            int n = Integer.valueOf(a[0]);
+            String domain = a[1];//字符串
+            String[] b = domain.split("\\.");//将字符串用.进行分割 得到单个字符串
+            for (int i = 0; i < b.length; i++) {
+                String[] c = Arrays.copyOfRange(b, i, b.length);//将字符串复制到数组中 再进行拼接形成其子字符串
+                String subdomain = String.join(".", c);//将分割字符串拼接
+                int OldCount = map.getOrDefault(subdomain, 0);
+                //先进行查找树中是否存在该字符 不存在返回0 存在 返回其出现次数
+                map.put(subdomain, OldCount + n);//将每个字符组合作为key 出现次数作为value 插入哈希表
+            }
+        }
+        System.out.println(map);
+        List<String> ret=new ArrayList<>();
+        for(Map.Entry <String ,Integer> e:map.entrySet()){
+            String domain=e.getKey();
+            int n=e.getValue();
+            String s=String .format("%d %s",n,domain);
+            ret.add(s);
+        }
+        System.out.println(ret);//返回链表
+    }
+}
