@@ -1,0 +1,53 @@
+//新建三个进程实现以下功能
+//计算1+2+3...+1000000
+//计算1=3+5...1000001
+//计算1+2+4...100000*2
+public class Demo {
+    public static class MyThread1 extends Thread{
+        int n=100000;
+        public MyThread1(){
+        }
+        @Override
+        public void run(){
+            int sum= 0;
+            for (int i = 1; i <=n; i++) {
+                sum += i;
+            }
+            System.out.println(sum);
+        }
+    }//1+2...+1000000
+    public static class MyThread2 extends Thread{
+        private int n=1000001;
+        public MyThread2(){ }
+        @Override
+        public void run(){
+            int sum= 0;
+            for (int i = 1; i <=n; i+=2) {
+                sum += i;
+            }
+            System.out.println(sum);
+        }
+    }//1+3...1000001
+    public static class MyThread3 extends Thread{
+        private int n=200000;
+        public MyThread3(){ }
+        @Override
+        public void run(){
+            int sum= 0;
+            for (int i = 1; i <=n; i*=2) {
+                sum += i;
+            }
+            System.out.println(sum);
+        }
+    }//1+1*2+3*2....100000*2
+
+
+    public static void main(String[] args) {
+        Thread thread1=new MyThread1();
+        Thread thread2=new MyThread1();
+        Thread thread3=new MyThread1();
+        thread1.start();
+        thread2.start();
+        thread3.start();
+    }
+}
