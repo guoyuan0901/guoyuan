@@ -1,0 +1,61 @@
+//两个线程一个从0开始加 一个从0减  要求显示的数字不可以超过10
+public class NWaitDemo {
+    private static Object o = new Object();
+    private static int n = 0;
+
+    private static class Sub extends Thread {
+        Sub() {
+            super("n--");
+        }
+
+        @Override
+        public void run() {
+            while (true) {
+                synchronized (o) {
+                    if (n == 0) {
+                        try {
+                            o.wait();
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    n--;
+                    System.out.println(getName() + ":" + n);
+                    o.notify();
+                }
+            }
+        }
+    }
+
+    private static class Add extends Thread {
+        Add() {
+            super("n++");//调用父类的构造方法 方便在下面调用getName的时候进行打印设置的名字
+        }
+
+        @Override
+        public void run() {
+            while (true) {
+                synchronized (o) {
+                    if (n == 10) {
+                        try {
+                            o.wait();
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    n++;//不保证从1加到10
+                    System.out.println(getName() + ":" + n);
+                    o.notify();//若锁未释放 可以写在n++上面
+                    //n++之后 将n++的锁进行释放 与n--一起抢cpu
+                }
+            }
+        }
+    }
+
+    public static void main(String[] args) {
+        Thread a = new Add();
+        Thread b = new Sub();
+        a.start();
+        b.start();
+    }
+}
