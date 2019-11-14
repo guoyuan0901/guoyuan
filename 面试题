@@ -1,0 +1,20 @@
+//网易面试题-不要2问题
+import java.util.Scanner;
+//即需要判断a[i][j-2] 及a[i-2][j]是否存在蛋糕 若存在 则不存放 不存在则进行存放
+public class 蛋糕 {
+    public static void main(String args[]) {
+        Scanner sc = new Scanner(System.in);
+        int m = sc.nextInt();//行数
+        int n = sc.nextInt();//列数
+        int evenICount = (n / 4) * 2 + (n % 4 < 2 ? n % 4 : 2);//分了奇数行，偶数行
+        int oddICount = ((n - 2) / 4) * 2 + ((n - 2) % 4 < 2 ? (n - 2) % 4 : 2);
+        int ans = m / 4 * (evenICount + oddICount) * 2;//通过其确定的行数来确定
+        if (m % 4 > 0) ans += evenICount;//处理起来其实就是余数为123三种情况，这样写也是可以的
+        if (m % 4 > 1) ans += evenICount;
+        if (m % 4 > 2) ans += oddICount;
+        /* if(m % 4 == 1) ans += evenICount;
+        if(m % 4 ==2) ans += evenICount*2;
+        if(m % 4 ==3) ans += oddICount+evenICount*2;**/
+        System.out.println(ans);
+    }
+}
