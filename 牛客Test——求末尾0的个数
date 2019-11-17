@@ -1,0 +1,48 @@
+import java.util.Scanner;
+
+public class 末尾0的个数 {
+    public static void main(String[] args) {
+        //方法1：计算产生10的只可能是2*5 产生2次数大于产生5的个数 秩序要计算5出现次数
+        Scanner in=new Scanner(System.in);
+        int n=in.nextInt();
+        int count=0;
+        while(n>0){
+            count+=n/5;
+            n=n/5;
+        }
+        System.out.println(count);
+        //方法2：可以通过 但是有可能产生溢出
+        /*int sum=1;
+        int num=0;
+        for(int i=1;i<=n;i++){
+            sum*=i;
+        }
+        while(sum%10==0){
+            sum/=10;
+            num++;
+        }
+        System.out.println(num);
+        */
+//方法3：解决了方法2产生的溢出错误，产生0只可能产生在后四位
+ /*import java.util.Scanner;
+
+        public class Main {
+            public static void main(String[] args) {
+                Scanner in=new Scanner(System.in);
+                int n=in.nextInt();
+                long sum=1;
+                int num=0;
+                for(int i=1;i<=n;i++){
+                    sum*=i;
+                    while(sum%10==0){
+                        sum/=10;
+                        num++;
+                    }
+                    sum%=10000;
+                }
+                System.out.println(num);
+            }
+        }
+        */
+    }
+}
