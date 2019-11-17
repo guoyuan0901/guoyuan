@@ -1,0 +1,18 @@
+//每次只能走右边或者左边 可以利用递归 递归出口是下标为（1,1）点，递归时会进行减一变成（1,1）+（2,0）+（0,2）（1,1）
+//(2,0)及（0,2）并不存在 所以应该为或
+import java.util.Scanner;
+public class 机器人走方格 {
+    public static int digui(int x, int y) {
+        if(x==1||y==1){
+            return 1;
+        }
+        return digui(x, y - 1) + digui(x - 1, y);
+    }
+
+    public static void main(String[] args) {
+        Scanner in = new Scanner(System.in);
+        int x = in.nextInt();
+        int y = in.nextInt();
+        System.out.println(digui(x, y));
+    }
+}
