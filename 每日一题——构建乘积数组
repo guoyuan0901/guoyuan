@@ -1,0 +1,24 @@
+  //b[0]=0;
+  // b[1]=A[0]A[2]a[3]...a[n-1]
+  //b[2]=a[0]a[1]a[3]a[4]...a[n-1]
+  //b[i]=a[0]a[1]a[i-1]a[i+1]...a[n-1]
+  public class Solution {
+      public int[] multiply(int[] A) {
+            int len = A.length;//数组A的长度
+            int[] B = new int[len];
+            //计算下三角
+            //下三角的b[i]=b[i-1]*a[i-1]
+            B[0] = 1;
+            for (int i = 1; i < len; i++) {
+                B[i] = B[i - 1] * A[i - 1];
+            }
+            //计算上三角
+            //上三角时从a[i+1]一致乘到a[n-1]
+            int temp = 1;
+            for (int i = len - 2; i >= 0; i--) {//len-2是因为数组的长度与下标相差1 而且为了防止下标溢出
+                temp *= A[i + 1];//计算的是后面的乘积
+                B[i] *= temp;//将上三角与下三角的积乘起来组成b[i]
+            }
+            return B;
+        }
+    }
