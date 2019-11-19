@@ -1,0 +1,19 @@
+import java.util.Scanner;
+
+public class 个位数统计 {
+    public static void main(String[] args) {
+        Scanner in = new Scanner(System.in);
+        int[] array = new int[10];
+        String n=in.next();//将输入的数组以字符串进行接收
+        for (int i = 0;i<n.length();i++) {
+            array[n.charAt(i) -'0'] ++;
+        }//charAt()是取得指定索引的字符
+        //字符串中包含一个字符数组 可以通过下标进行访问
+        //字符-‘0’得到的是数字 刚好与下标对应
+        for(int i=0;i<array.length;i++) {
+            if (array[i] != 0) {
+                System.out.println(i + ":" + array[i]);
+            }
+        }
+    }
+}
