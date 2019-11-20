@@ -1,0 +1,17 @@
+public class 生成格雷码 {
+    //每次在前面的基础上最高为添加0和1(注意对称性）
+    //0 1
+    //00 01   11 10
+    //000 001 011 010    110 111 101 100
+    public static String[] getGray(int n) {
+        if (n == 1) 
+            return new String[]{"0", "1"};
+        String[] s = getGray(n - 1);
+        String[] res = new String[s.length * 2];//新的字符串长度在原来的基础上扩大了2倍
+        for (int i = 0; i < s.length; i++) {
+            res[i] = "0" + s[i];//最高位依次加0
+            res[s.length + i] = "1" + s[s.length - 1 - i];//对称进行添加 s.length-1为当前添加0后的最后一个元素
+        }
+        return res;
+    }
+}
