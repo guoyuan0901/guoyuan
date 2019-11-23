@@ -1,0 +1,20 @@
+public class 另类加法 {
+    public static  int addAB(int A, int B) {
+        int xor,and;
+        while(B!=0) {
+            xor=A^B;
+            and=(A&B)<<1;//求进位 因为与的运算与求进位的运算一致；
+            A=xor;
+            B=and;
+        }
+        return A;
+    }
+    public static int addAB1(int A,int B) {
+        int c = (A | B) + (A & B);
+        return c;
+    }
+    public static void main(String[] args) {
+        System.out.println(addAB1(10,10));
+    }
+
+}
