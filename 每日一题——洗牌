@@ -1,0 +1,49 @@
+import java.util.Scanner;
+
+public class 洗牌 {
+    public static void main(String[] args) {
+        Scanner in = new Scanner(System.in);
+        int T = in.nextInt();
+        while (in.hasNext()) {
+            int n = in.nextInt();
+            int k = in.nextInt();
+            int[] array = new int[2 * n];
+            for (int i = 0; i < 2 * n; i++) {
+                array[i] = in.nextInt();
+            }
+            shuffle(array, n, k);
+        }
+    }
+
+    private static void shuffle(int[] array, int n, int k) {
+        int[] num = new int[2 * n];
+        int[] arr1 = new int[n];//左
+        int[] arr2 = new int[n];//右
+        while (k-- > 0) {
+            int count = 0;//用来计算新的数组个数
+            int index1 = n - 1;
+            int index2 = n - 1;
+            for (int i = 0; i < n; i++) {
+                arr1[i] = array[i];
+                arr2[i] = array[n + i];
+            }//进行分牌
+            while (count != 2 * n) {
+                num[count] = arr2[index2];//右边先放
+                num[count + 1] = arr1[index1];
+                count += 2;
+                index1--;
+                index2--;
+            }//进行洗牌
+            for (int i = 0, j = 2 * n - 1; i < 2 * n && j >= 0; i++, j--) {
+                array[i] = num[j];
+            }//如果有地儿次洗牌的话 需要将牌逆置在进行分牌
+        }
+        for (int i = (2 * n) - 1; i >= 0; i--) {
+            System.out.print(num[i]);
+            if (i != 0) {
+                System.out.print(" ");//数字之间需要空格
+            }
+        }
+        System.out.println(" ");//多组测试用例时最后一个不允许出现空格
+    }
+}
