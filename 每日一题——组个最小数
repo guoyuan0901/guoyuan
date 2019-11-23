@@ -1,0 +1,36 @@
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
+//输入10个数 中间有空格组成 每个代表当前数字的个数
+// 输入：2 2 0 0 0 3 0 0 1 0
+//输出：10015558
+public class 组个最小数 {
+    public static void main(String[] args) {
+        Scanner in = new Scanner(System.in);
+        int[] array = new int[10];//用来存储输入值0~9个数
+        List<Integer> list = new ArrayList<>();
+        for (int i = 0; i < array.length; i++) {
+            array[i] = in.nextInt();
+        }
+        for (int i = 0; i < array.length; i++) {
+            while (array[i] != 0) {
+                list.add(i);//将数字依次进行尾插（将0也插入）
+                array[i]--;//用来控制数字个数
+            }
+        }//按序插入
+        if (list.get(0) == 0) {//如果列表首项为0 需要进行替换
+            for (int i = 0; i < list.size(); i++) {
+                if (list.get(i) != 0) {//遍历列表找到第一个不为0元素下标
+                    int a = list.get(i);//保存需要进行替换的值
+                    list.set(i, 0);
+                    list.set(0, a);//进行替换
+                    break;
+                }
+            }
+
+        }
+        for (int i = 0; i < list.size(); i++) {
+            System.out.print(list.get(i));//输出结果
+        }
+    }
+}
