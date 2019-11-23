@@ -1,0 +1,27 @@
+import java.util.*;
+
+public class 统计同成绩学生人数 {
+    public static void main(String[] args) {
+        Scanner in = new Scanner(System.in);
+        while (in.hasNext()) {
+            int N = in.nextInt();
+            int[] array = new int[N];
+            for (int i = 0; i < N; i++) {
+                array[i] = in.nextInt();
+            }
+            int grade = in.nextInt();
+            int a = findSameGradeStudent(N, array, grade);
+            System.out.println(a);
+        }
+    }
+
+    private static int findSameGradeStudent(int n, int[] array, int grade) {
+        int count = 0;
+        for (int i = 0; i < n; i++) {
+            if (array[i] == grade) {
+                count++;
+            }
+        }
+        return count;
+    }
+}
