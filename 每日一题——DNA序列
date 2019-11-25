@@ -1,0 +1,27 @@
+import java.util.*;
+
+public class DNA序列 {
+    public static void main(String[] args) {
+        Scanner in=new Scanner(System.in);
+        while(in.hasNext()) {
+            String s = in.nextLine();
+            int len = in.nextInt();
+            int max=0;
+            int maxIndex=0;//数量最多的那个起始位置
+            for (int i = 0; i <=s.length()-len; i++) {//能过进行截取的字符串的位置为[0,s.length()-len]
+                int count = 0;
+                for (int j = i; j <len + i; j++) {
+                    if(s.charAt(j) == 'C' || s.charAt(j)== 'G') {//charAt()返回当前索引的值char值 适用于String中
+                        count++;
+                    }
+                }
+                if(max<count) {//不加等于是因为有可能存在重复
+                    max = count;
+                    maxIndex = i;
+                }
+            }
+            System.out.println(s.substring(maxIndex,maxIndex+len));//截取从最大字符串开始长为len的字符串
+        }
+
+    }
+}
