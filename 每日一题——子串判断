@@ -1,0 +1,13 @@
+import java.util.Scanner;
+
+public class 子串判断 {
+    public boolean[] chkSubStr(String[] p, int n, String s) {
+        boolean[] array=new boolean[n];
+        int index=0;
+        for(int i=0;i<p.length;i++) {
+            array[index]=s.contains(p[i]);//string的自带方法 判断子字符串是否存在
+            index++;
+        }
+        return array;
+    }
+}
