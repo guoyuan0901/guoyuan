@@ -1,0 +1,52 @@
+import java.util.*;
+class Student
+{
+    public String name;
+    public int score;
+    public Student(String name,int score)
+    {
+        this.name=name;
+        this.score=score;
+    }
+    public String toString() {
+        return this.name + " " + this.score;
+    }
+}//将学生的姓名及成绩封装到类中 方便利用Comparator接口进行排序
+public class 成绩排序 {
+    public static void main(String[] args) {
+        Scanner in = new Scanner(System.in);
+        Map<String, Integer> map = new HashMap<>();
+        while(in.hasNext()) {
+            int num = in.nextInt();//学生人数
+            int p = in.nextInt();//0按降序 1按升序
+            List<Student> list = new ArrayList<>();
+            for (int i = 0; i < num; i++) {
+                list.add(new Student(in.next(), in.nextInt()));
+            }//将学生及成绩封装到对象中 添加到顺序表
+            if (p == 0) {
+                Collections.sort(list, new Comparator<Student>() {
+                    @Override
+                    public int compare(Student o1, Student o2) {
+                        return o2.score - o1.score;
+                    }
+                });
+            }//降序
+            //Collection.sort()方法能使用泛型对对象的变量进行排序
+            //第二个参数相当于告诉list按照什么顺序排序
+            //lambda表达式常用于在创建匿名类的时候
+            else
+            {
+                Collections.sort(list, new Comparator<Student>() {
+                    @Override
+                    public int compare(Student o1, Student o2) {
+                        return o1.score-o2.score;
+                    }
+                });
+            }//升序
+            for(int i=0;i<list.size();i++)
+            {
+                System.out.println(list.get(i).name+" "+list.get(i).score);
+            }
+        }
+    }
+}
