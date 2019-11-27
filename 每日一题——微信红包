@@ -1,0 +1,24 @@
+import java.util.HashMap;
+import java.util.Map;
+
+public class 微信红包 {
+    public int getValue(int[] gifts, int n) {
+        Map<Integer, Integer> map = new HashMap<>();
+        int y = 0;
+        int x = 0;
+        for (int i = 0; i < gifts.length; i++) {
+            if (map.get(gifts[i]) == null) {//第一次在没有插入之前 value值为null;
+                map.put(gifts[i], 1);
+            } else {
+                x = map.get(gifts[i]).intValue();//如果该值已经存在 则取得其value值 将其加1 插入树中
+                map.put(gifts[i], 1 + x);
+            }
+        }
+        for (Map.Entry<Integer, Integer> e : map.entrySet()) {
+            if (e.getValue() > n / 2) {
+                y = e.getKey();
+            }
+        }
+        return y;
+    }
+}
