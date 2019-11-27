@@ -1,0 +1,43 @@
+class ListNode {
+    int val;
+    ListNode next = null;
+
+    ListNode(int val) {
+        this.val = val;
+    }
+}
+public class 链表分割 {
+    public ListNode partition(ListNode pHead, int x) {
+        ListNode small=null;
+        ListNode lastSmall=null;
+        ListNode big=null;
+        ListNode lastBig=null;
+        ListNode cur=pHead;
+        while(cur!=null) {
+            ListNode next = cur;
+            if (cur.val < x) {
+                if (small == null) {
+                    small = cur;
+                } else
+                    lastSmall.next = cur;
+                lastSmall = cur;
+            } else {
+                if (big == null) {
+                    big = cur;
+                } else
+                    lastBig.next = cur;
+                lastBig = cur;
+            }
+            cur = cur.next;
+        }
+        if(small==null)
+         return big;
+        else if(big==null)
+            return small;
+        else {
+            lastSmall.next = big;
+            lastBig.next=null;
+            return small;
+        }
+    }
+}
