@@ -1,0 +1,21 @@
+import java.util.Scanner;
+
+public class 统计每个月兔子的总数 {
+    public static int fib(int n) {
+        if (n == 1 || n == 2) {
+            return 1;
+        }//兔子在出生第三个月时就可以生兔子 所以相当于间隔是两个月
+        return fib(n - 1) + fib(n - 2);
+    }
+    //3月:2
+    //4月:3
+    //5月:5 本来是4只 但有一只可以生了
+    //6月:8...同上
+    public static void main(String[] args) {
+        Scanner in = new Scanner(System.in);
+        while(in.hasNext()) {
+            int n = in.nextInt();
+            System.out.println(fib(n));
+        }
+    }
+}
