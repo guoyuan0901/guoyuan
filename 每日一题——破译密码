@@ -1,0 +1,21 @@
+import java.util.Scanner;
+//将密码进行破译
+//A B C D E  F G H...V W X Y Z(密码）
+//V W X Y Z  A B C...Q R S T U（原文）
+//F之后均减5
+//A...E需要（-5+26=21）
+public class 最难的问题_破译密码 {
+    public static void main(String[] args) {
+        Scanner in=new Scanner(System.in);
+        while(in.hasNext()){
+            String s=in.nextLine();
+            char[]array=s.toCharArray();
+            for(int i=0;i<array.length;i++){
+                if(array[i]!=' ') {//空格不进行翻译
+                    array[i] = (char) ('E' < array[i] ? (array[i] - 5) : (array[i] + 21));
+                }
+            }
+            System.out.println(array);
+        }
+    }
+}
