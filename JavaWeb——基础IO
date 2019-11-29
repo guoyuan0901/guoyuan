@@ -1,0 +1,18 @@
+字节流：
+
+    输入流：inputStream(interface)
+    输出流：OutputStream(interface)
+FileInputStream 源是文件内容
+ByteArrayInputStream 源是内存中的一个段
+read()!=-1 可以继续读
+    .....
+File file=new File("C:\\新建文件夹\\jk.tet");
+file.createNewFile();//创建文本
+OutputStream os=new FileOutputStream(file);
+//Outputstream是接口 需要FileOutputStream类进行实现
+os.write("BTS".getBytes());//默认为
+os.write("BTS".getBytes("UTF-8"));//字节编码为UTF-8
+
+可以利用String 进行编码
+String s=new String(buf,起始位置，长度，编码格式)
+
