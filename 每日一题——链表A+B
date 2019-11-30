@@ -1,0 +1,39 @@
+import java.util.Arrays;
+public class 链式A_B {
+    public ListNode plusAB(ListNode a, ListNode b) {
+        if(a==null||b==null){
+            return null;
+        }
+        int flag = 0;
+        ListNode curA = a;//链表A的头结点
+        ListNode curB = b;//链表B的头结点
+        ListNode res =new ListNode(-1);//用来返回A+B的链表
+        ListNode cur=res;
+        while(curA != null || curB != null) {
+            if (curA != null && curB != null) {//A与B都不为null时 链表节点val值A+B
+                cur.next = new ListNode((curA.val + flag + curB.val) % 10);//新建结点插入新链表
+                cur = cur.next;//尾插
+                flag = (curA.val + curB.val + flag) / 10;//进位值
+                curA = curA.next;
+                curB = curB.next;
+            } else if (curA != null) {
+                cur.next = new ListNode((curA.val+flag)%10);
+                cur=cur.next;
+                flag = (curA.val  + flag) / 10;
+                curA = curA.next;
+            } else {
+               cur.next = new ListNode((curB.val+flag)%10);
+               cur=cur.next;
+                flag = ( curB.val + flag) / 10;
+                curB = curB.next;
+            }
+        }
+
+        if(flag > 0){
+            cur.next = new ListNode(flag);
+            cur = cur.next;
+        }
+        return res.next;
+
+    }
+}
