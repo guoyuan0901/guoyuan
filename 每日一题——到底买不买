@@ -1,0 +1,28 @@
+import java.util.*;
+
+public class 到底买不买 {
+    public static void main(String[] args) {
+        Scanner in = new Scanner(System.in);
+        String seller = in.nextLine();//卖家
+        String buyer = in.nextLine();//买家
+        int count=0;
+        List<Character> list = new ArrayList<>();
+        for (int i = 0; i < seller.length(); i++) {
+            list.add(seller.charAt(i));
+        }
+        for (int i = 0; i < buyer.length(); i++) {//遍历买家查找有没有字母
+            char ch=buyer.charAt(i);
+            for (int j = 0; j < list.size(); j++) {
+                if (list.get(j) == ch) {
+                    list.remove(j);//找到之后进行删除该字母 为了防止买家有重复字母需进行查找
+                    count++;//在卖家中找到的买家需要的字母
+                    break;
+                }
+            }
+        }
+        if(count==buyer.length()){
+            System.out.println("Yes"+" "+(seller.length()-count));//如果包含了买家全部的字母 就返回多余的字母
+        }else
+            System.out.println("No"+" "+(buyer.length()-count));//返回缺的字母
+    }
+}
