@@ -1,0 +1,22 @@
+import java.util.*;
+
+public class 字符集合 {
+    public static void main(String[] args) {
+        Scanner in = new Scanner(System.in);
+        while(in.hasNext()) {
+            String s = in.nextLine();
+            char[] array = s.toCharArray();
+            List<Character> list = new ArrayList<>();
+            for (char c : array) {
+                if (!list.contains(c)) {//重复的不可以添加
+                    list.add(c);
+                }
+            }
+            for(char ch:list) {
+                System.out.print(ch);
+            }
+            System.out.println();
+        }
+
+    }
+}
