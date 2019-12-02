@@ -1,0 +1,23 @@
+public class 二叉树平衡检查 {
+    //左右子树只差不超过1
+    public int getHeight(TreeNode root){
+        if(root==null)
+            return 0;
+        return Math.max(getHeight(root.left),getHeight(root.right))+1;
+    }
+    public boolean isBalance(TreeNode root) {
+        if(root==null)
+            return true;
+        if(!isBalance(root.left))
+            return false;
+        if(!isBalance(root.right))
+            return false;
+        int left=getHeight(root.left);
+        int right=getHeight(root.right);
+        int diff=left-right;
+        if(diff>=-1&&diff<=1){
+            return true;
+        }
+        return false;
+    }
+}
