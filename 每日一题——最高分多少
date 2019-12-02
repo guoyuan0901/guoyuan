@@ -1,0 +1,43 @@
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
+
+public class 最高分是多少 {
+    public static void main(String[] args) {
+        Scanner in=new Scanner(System.in);
+        while(in.hasNext()) {
+            int N = in.nextInt();
+            int M = in.nextInt();
+            List<Integer> list = new ArrayList<>();
+            int count = 0;
+            int index = 0;
+            while (count < N) {
+                list.add(in.nextInt());
+                count++;
+            }
+            while (index < M) {
+                String ch = in.next();
+                int first = in.nextInt();
+                int last = in.nextInt();
+                index++;
+                if (ch.charAt(0) == 'Q') {//查询从first到last的最大值（题目要求下标从1开始）
+                    if(first>last){
+                        int temp=first;
+                        first=last;
+                        last=temp;
+                    }//有可能给的边界值顺序不一样
+
+                    int max = list.get(first - 1);
+                    for (int i = first-1; i < last; i++) {
+                        if (list.get(i)>=max)
+                            max = list.get(i);
+                    }
+                    System.out.println(max);
+                }
+                if (ch.charAt(0) == 'U') {
+                    list.set(first - 1, last);//更新下标为first的值
+                }
+            }
+        }
+    }
+}
