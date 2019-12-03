@@ -1,0 +1,30 @@
+import java.util.Scanner;
+
+public class 小易的升级之路 {
+    public static void main(String[] args) {
+        Scanner in=new Scanner(System.in);
+        while(in.hasNext()){
+            int n=in.nextInt();
+            int begin=in.nextInt();//初始等级
+            int[]array=new int[n];//每个怪的等级值
+            int index=0;
+            while(index<n) {
+                array[index] = in.nextInt();
+                index++;
+            }
+            for(int i=0;i<n;i++){
+                if(array[i]<=begin){
+                    begin+=array[i];//遇到比自己小的 直接加上怪的等级
+                }else
+                {
+                    int x=array[i];
+                    while(begin%x!=0||array[i]%x!=0){//比自己大的求最大公约数 加
+                        x-=1;
+                    }
+                    begin+=x;
+                }
+            }
+            System.out.println(begin);
+        }
+    }
+}
