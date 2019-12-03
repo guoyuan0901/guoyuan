@@ -1,0 +1,86 @@
+import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
+
+public class 数字分类 {
+    public static void main(String[] args) {
+        Scanner in=new Scanner(System.in);
+        while(in.hasNext()) {
+            List<Integer> list = new ArrayList<>();
+            int N = in.nextInt();
+            int count = 0;
+            while (count < N) {
+                list.add(in.nextInt());
+                count++;
+            }
+            int A1 = 0;
+            int A2 = 0;
+            int A3 = 0;
+            double A4 = 0;
+            int A5 = 0;
+            int CountA2=1;
+            int countA4=0;
+            for (int i = 0; i < list.size(); i++) {
+                int r=list.get(i)%5;
+                switch (r)
+                {
+                    case 0:
+                        if (list.get(i)% 10 == 0) {
+                            A1 += list.get(i);
+                        }//除5余0且最后一位为0
+                            break;
+                    case 1:
+                        int k = (CountA2%2==0)?(-1):(1);
+                        CountA2++;
+                        A2 += (k * list.get(i));//除5余1的交替相加
+                        break;
+                    case 2:
+                        A3++;//统计除5余3的个数
+                        break;
+                    case 3:
+                        A4 += list.get(i);
+                        countA4++;//除5余3的值相加
+                        break;
+                    case 4:
+                        if (list.get(i) > A5)
+                            A5 = list.get(i);//除5余4的最大值
+                        break;
+                    default:
+                        break;
+                }
+            }
+            if (A1 == 0) {
+                System.out.print("N");//如果该类数字不存在输出N
+            } else
+                System.out.print(A1);
+            System.out.print(" ");
+
+            if (A2 == 0) {
+                System.out.print("N");
+            } else
+                System.out.print(A2);
+            System.out.print(" ");
+
+            if (A3 == 0) {
+                System.out.print("N");
+            } else
+                System.out.print(A3);
+            System.out.print(" ");
+
+            if (A4 == 0) {
+                System.out.print("N");
+            } else {
+                DecimalFormat df = new DecimalFormat("#.0");
+                System.out.printf(df.format(A4/countA4));//输出小数点后一位
+            }
+            System.out.print(" ");
+
+            if (A5 == 0) {
+                System.out.print("N");
+            } else
+                System.out.print(A5);
+
+        }
+    }
+}
