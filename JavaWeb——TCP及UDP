@@ -1,0 +1,40 @@
+import java.io.IOException;
+import java.net.DatagramPacket;
+import java.net.DatagramSocket;
+import java.net.InetAddress;
+import java.net.SocketException;
+
+public class Server {
+    public static void main(String[] args) throws IOException {
+        //新建一个DatagramSocket
+        //一个端口号只能被一个进程使用 再启动一个进程会进行报错
+        DatagramSocket udpServerSocket=new DatagramSocket(9898);
+        while(true) {
+            //等待客户端发送消息
+            byte[] receiveBuffer = new byte[1024];
+            //因为DatagramPocket的构造方法中需要传输一个字节类型的buf以及他的长度
+            DatagramPacket receivePacket = new DatagramPacket(receiveBuffer, receiveBuffer.length);
+            //从udpdatagramSocket接收数据
+            //参数为一个DatagramPacket的对象 接收到的数据存在buf中
+            udpServerSocket.receive(receivePacket);
+            InetAddress clientAddress = receivePacket.getAddress();//接收客户端ip地址
+            System.out.printf("我从%s:%d收到消息%n", clientAddress.getHostAddress(), receivePacket.getPort());
+            //getHostAddress()为获取ip地址
+            System.out.printf("我一共收到了%d字节的数据%n", receivePacket.getLength());
+            String message = new String(receivePacket.getData(), 0, receivePacket.getLength(), "UTF-8");
+            //将字节类型的数据转为字符型 进行接收
+            System.out.println(message);
+
+
+            //使服务端可以进行回消息
+            byte[] sendBuffer = message.getBytes("UTF-8");//转换为字节类型在进行返回信息
+            DatagramPacket sendPacket = new DatagramPacket(
+                    sendBuffer,
+                    sendBuffer.length,
+                    clientAddress,
+                    receivePacket.getPort()//端口号
+            );
+            udpServerSocket.send(sendPacket);
+        }
+    }
+}
