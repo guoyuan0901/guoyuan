@@ -1,0 +1,41 @@
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.*;
+
+public class Client {
+    public static void main(String[] args) throws IOException {
+        DatagramSocket udpClientSocket = new DatagramSocket();
+        String message = "田柾国" ;//发送报文的信息
+        byte[] sendBuffer = message.getBytes("UTF-8");//将字符串改为UTF-8形式
+        byte[] serverIP = new byte[4];//手动构建服务端的端口地址 IPV4默认为4个字节
+        serverIP[0] = (byte) 127;
+        serverIP[1] = (byte) 0;
+        serverIP[2] = (byte) 0;
+        serverIP[3] = (byte) 1;
+        //ip地址：192.168.0.196
+        //ip地址：127.0.0.1（自己的ip地址）
+        InetAddress serverAddress = InetAddress.getByAddress(serverIP);
+        DatagramPacket sendPacket = new DatagramPacket(
+                sendBuffer,
+                sendBuffer.length,
+                serverAddress,
+                9898
+        );//发送信息的对象
+        udpClientSocket.send(sendPacket);
+
+        // 接受对方回应的消息
+        byte[] receiveBuffer = new byte[1024];
+        DatagramPacket receivePacket = new DatagramPacket(
+                receiveBuffer, receiveBuffer.length);
+        udpClientSocket.receive(receivePacket);
+        String responseMessage = new String(
+                receivePacket.getData(),
+                0,
+                receivePacket.getLength(),
+                "UTF-8"
+        );
+        System.out.println(responseMessage);
+
+        udpClientSocket.close();
+    }
+}
