@@ -1,0 +1,42 @@
+import java.io.*;
+import java.net.InetAddress;
+import java.net.InetSocketAddress;
+import java.net.ServerSocket;
+import java.net.Socket;
+import java.util.Scanner;
+
+public class TCPServer {
+    public static void main(String[] args) throws IOException {
+        ServerSocket tcpServerSocket = new ServerSocket(8080);
+        Scanner scanner = new Scanner(System.in);
+        while (true) {
+            Socket clientSocket = tcpServerSocket.accept();//获取连接
+            InetAddress clientAddress = clientSocket.getInetAddress();//获取客户端地址
+            int clientPort = clientSocket.getPort();//端口号
+            //System.out.printf("有客户端连接上来 %s:%d%n",
+            //clientAddress.getHostAddress(), clientPort);
+            // 获取输入字节流
+            InputStream is = clientSocket.getInputStream();
+
+            // 字节流转换为字符流
+            InputStreamReader isReader = new InputStreamReader(is, "UTF-8");
+
+            // 字符流转换缓冲字符流（为了能够读取\r\n进行分割）
+            BufferedReader reader = new BufferedReader(isReader);
+
+            // 获取输出字节流
+            OutputStream os = clientSocket.getOutputStream();
+            PrintStream out = new PrintStream(os, true, "UTF-8");
+            //转换为PrintStream 是为了方便使用PrintStream的输出方法
+            String line;
+            while ((line = reader.readLine()) != null) {
+                System.out.println("好友说: " + line);
+                System.out.print("请回复> ");
+                String response = scanner.nextLine();
+                out.println(response);
+            }
+        }
+    }
+}
+
+
