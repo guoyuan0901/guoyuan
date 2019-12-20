@@ -1,0 +1,33 @@
+import java.io.*;
+import java.net.*;
+import java.util.Scanner;
+
+public class TCPClient {
+    public static void main(String[] args) throws IOException {
+        Scanner scanner = new Scanner(System.in);
+        Socket tcpClientSocket = new Socket();
+        byte[] ipv4 = {(byte)192, (byte)168,(byte) 0,(byte) 196};
+        InetAddress serverAddress = InetAddress.getByAddress(ipv4);//获取服务器端ip地址
+        SocketAddress serverSocketAddress
+                = new InetSocketAddress(serverAddress, 8080);
+        tcpClientSocket.connect(serverSocketAddress);//连接服务端
+
+        while (true) {
+            System.out.print("请输入> ");
+            String request = scanner.nextLine();
+            // 通过字节流直接写入请求
+            OutputStream os = tcpClientSocket.getOutputStream();
+            PrintStream out = new PrintStream(os, true, "UTF-8");
+            out.println(request);//将字节流进行输出到输出流中
+
+            // 通过字节流，直接读取数据
+            InputStream is = tcpClientSocket.getInputStream();
+            BufferedReader reader = new BufferedReader(
+                    new InputStreamReader(is, "UTF-8")
+            );
+            String response = reader.readLine();
+            System.out.println(response);
+        }
+    }
+}
+
