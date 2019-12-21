@@ -1,0 +1,89 @@
+import java.io.*;
+import java.net.Socket;
+import java.util.Scanner;
+//在终端上进行结束 ctrl+D/ctrl+z
+public class IODemo {
+   /* 从本地文件进行读取
+   private static InputStream 获取一个输入流() throws FileNotFoundException {
+        InputStream inputStream = new FileInputStream("本地文件.txt");
+        return inputStream;
+    }*/
+   /*从内存中进行读取
+    private static InputStream 获取一个输入流() throws FileNotFoundException {
+        byte[] bytes = "从内存中进行读取".getBytes();
+        InputStream inputStream = new ByteArrayInputStream(bytes);//将字节数组作为输入源
+        return inputStream;
+    }*/
+   //从网络中进行读取
+   private static InputStream 获取一个输入流() throws IOException {
+       Socket socket=new Socket("www.baidu.com",80);
+       OutputStream os=socket.getOutputStream();
+       Writer writer=new OutputStreamWriter(os,"UTF-8");//转换为输出字符流
+       PrintWriter printWriter=new PrintWriter(writer,false);//转换为printWriter是为了使用printf
+       printWriter.printf("GET/HTTP/1.0\r\n\r\n");
+       printWriter.flush();//先输入到内存的缓冲区中的 需要进行刷新
+       InputStream inputStream=socket.getInputStream();
+       return inputStream;
+
+   }
+   private static OutputStream 获取一个输出流() throws IOException {
+       OutputStream os=new FileOutputStream("本地输出文件.txt");
+
+       return null;
+
+   }
+    /*1.直接通过字节方式读，然后程序直接进行字符编码
+      2.把Stream转换为Reader，进行字符形式读取
+         2.1直接读
+         2.2使用BufferReader中的ReadLine（）方法
+      3.Scanner也可以
+     */
+
+   /*第一种方式直接读取（问题：不保证读取的数据字节小于1024）
+   private static String 从字节流中获取字符数据(InputStream is) throws IOException {
+        byte[] buffer=new byte[1024];
+        int len=is.read(buffer);
+        String message=new String (buffer,0,len,"UTF-8");
+        return message;
+
+    }*/
+
+   /*2.1方式:通过Reader进行读取
+    private static String 从字节流中获取字符数据(InputStream is) throws IOException {
+        Reader reader=new InputStreamReader(is,"UTF-8");
+        char[]buffer=new char[1024];
+        int len=reader.read(buffer);
+        String message=new String(buffer,0,len);//char类型不用进行字符编码
+        return message;
+    }*/
+
+    /*第二种解决方式
+    private static String 从字节流中获取字符数据(InputStream is) throws IOException {
+        StringBuilder sb=new StringBuilder();
+        Reader reader=new InputStreamReader(is,"UTF-8");
+        char[]buffer=new char[10];
+        int len;
+        while((len=reader.read(buffer))!=-1){//等于-1是表示读到流的结尾
+            sb.append(buffer,0,len);
+        }
+        String message=sb.toString();
+        return message;
+    }
+    */
+   /*2.2方式：利用BufferReader
+    private static String 从字节流中获取字符数据(InputStream is) throws IOException {
+        Reader reader = new InputStreamReader(is, "UTF-8");
+        BufferedReader bufferedReader = new BufferedReader(reader);//传参需要为Reader对象
+        StringBuilder sb = new StringBuilder();
+        String line;
+        while ((line = bufferedReader.readLine()) != null) {
+            sb.append(line+"\r\n");//因为进行读取时将换行符去掉了 需要进行添加
+        }
+        return sb.toString();
+    }
+    */
+    private static String 从字节流中获取字符数据(InputStream is) throws IOException {
+        Scanner scanner=new Scanner(is,"UTF-8");
+        return scanner.nextLine();
+    }
+}
