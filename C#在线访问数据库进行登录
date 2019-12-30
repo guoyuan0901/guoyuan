@@ -1,0 +1,22 @@
+ private void myDefaultBtn_Click(object sender, EventArgs e)
+        {
+            using (SqlConnection sqlcon = new SqlConnection(strcon))
+            {
+                sqlcon.Open();
+                string sql = string.Format("select count(*) from XSB where XH='{0}' and XM='{1}'", tbxPwd.Text, tbxUsr.Text);
+                SqlCommand command = new SqlCommand(sql, sqlcon);
+                SqlDataReader reader = command.ExecuteReader();
+                if (reader.HasRows)
+                {
+                    MessageBox.Show("登陆成功！", "提示");
+
+                    loginForm.search.Show();
+                    this.Close();
+                }
+                else
+                {                  
+                        MessageBox.Show("用户名或密码不正确！", "提示");                  
+                }
+                reader.Close();
+            }            
+        }
