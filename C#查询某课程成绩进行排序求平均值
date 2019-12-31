@@ -1,0 +1,57 @@
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Data.OleDb;
+using System.Data.SqlClient;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+
+namespace scoremanagement
+{
+    public partial class CourseForm : Form
+    {
+        private string sql = "";
+        private string connStr = @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=XSCJDB;Integrated Security=True";
+        DataSet ds = new DataSet();
+        public CourseForm()
+        {
+            InitializeComponent();
+        }
+        private void MakeSqlStr()
+        {
+            //清空上次的查询字符串
+            sql = "";
+            if (tbxKCH.Text.Trim() != string.Empty)
+            {
+                sql = " and KCH like '%" + tbxKCH.Text + "%'";
+            }
+            
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            //获取查询字符串
+            MakeSqlStr();
+            string _sql = "select XH as '学号',XM as '姓名',KCH as '课程号',CJ as '成绩'from CJB where 1=1 " + sql;
+            SqlConnection conn = new SqlConnection(connStr);
+            SqlDataAdapter sda = new SqlDataAdapter(_sql, conn);
+            sda.Fill(ds);
+            stuKCDGV.DataSource = ds.Tables[0].DefaultView;
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            int sum = 0;
+            for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
+            {
+                sum += int.Parse(ds.Tables[0].Rows[i][3].ToString());
+            }
+            sum /= ds.Tables[0].Rows.Count;
+            tbxAverage.Text = sum.ToString();
+        }
+    }
+}
