@@ -1,0 +1,77 @@
+package V1;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URLDecoder;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Scanner;
+
+public class Request {
+    String method;
+    String path;
+    String version;
+
+    Map<String, String> parameters = new HashMap<>();
+    Map<String, String> headers = new HashMap<>();
+
+    @Override
+    public String toString() {
+        return "v1.V1.Request{" +
+                "method='" + method + '\'' +
+                ", path='" + path + '\'' +
+                ", version='" + version + '\'' +
+                ", parameters=" + parameters +
+                ", headers=" + headers +
+                '}';
+    }
+
+    static Request parse(InputStream is) throws IOException {
+        Request request = new Request();
+        Scanner scanner = new Scanner(is, "UTF-8");
+        String line;
+        parseLine(request, scanner);//解析请求行
+        parseRequestHeaders(scanner, request);  //解析请求头
+        return request;
+    }
+
+    private static void parseRequestHeaders(Scanner scanner, Request request) {
+        String line;
+        while (!(line = scanner.nextLine()).isEmpty()) {
+            String[] kv = line.split(":");
+            String key = kv[0].trim();
+            String value = kv[1].trim();
+            request.headers.put(key, value);
+        }
+    }
+
+    private static void parseLine(Request request, Scanner scanner) throws IOException {
+        // 解析路径部分
+        // /c%2B%2B?name=hello&age=18&sex=
+        // path = c++
+        // { name = hello }
+        // 1. 路径部分考虑需要 URL 解码
+        // 2. 把 QueryString 部分分离到 parameters 中
+        String[] group = scanner.nextLine().split(" ");
+        request.method = group[0];//方法
+        parseUrl(group[1], request);//路径
+        request.version = group[2];//版本
+    }
+
+    private static void parseUrl(String s, Request request) throws IOException {
+        String[] group = s.split("\\?");
+        request.path = URLDecoder.decode(group[0], "UTF-8");
+        if (group.length == 2) {
+            String[] segment = group[1].split("&");
+            for (String kvString : segment) {
+                String[] kv = kvString.split("=");
+                String key = URLDecoder.decode(kv[0], "UTF-8");
+                String value = "";
+                if (kv.length == 2) {
+                    value = URLDecoder.decode(kv[1], "UTF-8");
+                }
+                request.parameters.put(key, value);
+            }
+        }
+    }
+}
