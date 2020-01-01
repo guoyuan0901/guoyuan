@@ -1,0 +1,14 @@
+package V1;
+
+import V1.HttpServlet;
+
+ abstract class HttpServlet {
+    public abstract void doGet(Request req, Response resp);
+}
+public class JokeJSServlet extends HttpServlet {
+    @Override
+    public void doGet(Request req, Response resp) {
+        resp.setHeader("Content-Type", "application/javascript; charset=utf-8");
+        resp.println("alert('很好很好');");
+    }
+}
