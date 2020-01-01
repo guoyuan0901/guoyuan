@@ -1,0 +1,41 @@
+package V1;
+
+import V1.HttpServlet;
+import V1.JokeJSServlet;
+import V1.Response;
+
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.Socket;
+
+public class Task implements Runnable {
+    private final Socket socket;
+
+    public Task(Socket socket) {
+        this.socket = socket;
+    }
+
+    @Override
+    public void run() {
+        try {
+            InputStream is = socket.getInputStream();
+            OutputStream os = socket.getOutputStream();
+            Request request = Request.parse(is);
+            System.out.println(request);//解析请求
+            Response response = new Response();
+
+            if (request.path.equals("/joke.js")) {//如果URL路径为joke.js时
+                HttpServlet servlet = new JokeJSServlet();//JokeJSServlet类实现HTTPServlet接口
+                servlet.doGet(request, response);//调用方法进行响应，与else一样 只是封装到了方法中
+            } else {
+                response.setStatus("404 Not Found");
+                response.setHeader("Content-Type", "text/html; charset=utf-8");
+                response.println("<h1>没有找到页面</h1>");
+            }
+            response.writeAndFlush(os);//组装并发送响应
+            socket.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
