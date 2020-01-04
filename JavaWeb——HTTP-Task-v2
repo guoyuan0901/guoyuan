@@ -1,0 +1,48 @@
+package v2;
+
+import v2.servlet.*;
+
+import java.net.Socket;
+
+public class Task implements Runnable {
+    private Socket socket;
+
+    public Task(Socket socket) {
+        this.socket = socket;
+    }
+
+    @Override
+    public void run() {
+        try {
+            // 读取并解析请求 -> 处理业务 -> 组装并发送响应
+
+            // 1. 读取并解析请求
+            Request request = Request.parse(socket.getInputStream());
+            System.out.println(request);
+            Response response = new Response();
+
+            // 2. 处理业务
+            HttpServlet servlet;
+            if (request.path.equals("/joke.js")) {
+                servlet = new JokeJSServlet();
+            } else if (request.path.equals("/login")) {//登录
+                // /login?username=你的用户名
+                // 发送响应: Header: Set-Cookie: username=你的用户名
+                servlet = new LoginServlet();
+            } else if (request.path.equals("/hello")) {//cookie安全性问题
+                servlet = new HelloServlet();
+            } else if(request.path.equals("/hello1")){
+                servlet=new Hello1Servlet();
+            }else{
+                servlet = new NotFoundServlet();//404业务
+            }
+            servlet.doGet(request, response);
+
+            // 3. 组装并发送响应
+            response.writeAndFlush(socket.getOutputStream());
+            socket.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
