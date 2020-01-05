@@ -1,0 +1,48 @@
+以jar包形式提供
+分析依赖
+依赖路径：C:\Users\dell\.m2
+自动下载
+下载慢的原因：
+下载源在国外
+只配置了一个依赖，但实际下载的东西可能更多
+自动配置编译和运行阶段的查找关系
+编写期间，也需要*.class/*.java
+编译期间，需要*.class
+运行期间，也需要*.class(类的加载过程)
+编译期间：java-cp
+运行期间：
+
+maven是一个工具，相当于首及的app商城
+maven在运行时需要保持网络状况良好
+
+jar包（可以直接编程接口）
+jar 是 Java ARchive 的缩写，是一种基本 zip 格式的文件格式。目标是将 java 生成的类文件、资源文件、管理文件等按照特定的结构打包成一个独立的文件，方便程序的发布或网络的下载。
+去哪找好的jar包：Github下进行搜索
+1.自己写的代码打包成jar包
+2.使用别人写好的jar包
+----------cmd
+使用cmd编译Notepad++步骤：
+      切换盘符+输入文件路径+编译运行
+
+打jar包：Hello.jar是自己命名的jar包名字   后跟jar包路径     一般情况在在类.class下
+
+运行jar包：
+如何查看环境变量:set
+如何查看具体的环境变量:echo %path%
+可以使用一次性的环境变量:set classpath=".;jar包名"
+IDEA
+打jar包：
+file——Project Structuer——Artifacts——“+”——jar——From modules with Dependenceies——根据需要，选择是否填充 Main.Class
+Build——Build actifacts——build
+使用jar包;
+使用别人的路径：在librbries下选择jar包路径
+import进行导入
+maven
+
+
+
+总结：
+
+
+
+
