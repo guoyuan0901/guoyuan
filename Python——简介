@@ -1,0 +1,59 @@
+1.如何从命令行进入python
+打开CMD输入python进入
+出现>>> 输入exit()退出python交互模式 回到命令行模式
+>>>100+200
+300
+>>>print('hello world')
+hello world
+
+退出后无法保存 需要在进行输入
+解决办法：使用文本编辑器（不要使用windows及word自带的记事本）将代码存放在.py文件中 打开命令行进行运行文件。
+原因：Word保存的不是纯文本文件，而记事本会自作聪明地在文件开始的地方加上几个特殊字符（UTF-8 BOM），结果会导致程序运行出现莫名其妙的错误。
+2.在命令行模式下执行python文件（.py结尾）
+执行一个python文件只能在命令行模式执行，否则将出现在当前目录找不到文件，需要将目录切换到文件所在目录下
+C:\>cd work
+C:\work>python 文件名.py 
+
+3.命令行与python交互模式下的区别
+
+想要出现结果：
+将python文件内容改为
+print(100+200+300)
+C:\work>python 文件名.py
+600
+
+4.Python的交互模式和直接运行.py文件有什么区别呢？
+直接输入python进入交互模式，相当于启动了Python解释器，但是等待你一行一行地输入源代码，每输入一行就执行一行。
+直接运行.py文件相当于启动了Python解释器，然后一次性把.py文件的源代码给执行了，你是没有机会以交互的方式输入源代码的。
+用Python开发程序，完全可以一边在文本编辑器里写代码，一边开一个交互式命令窗口，在写代码的过程中，把部分代码粘到命令行去验证，事半功倍！前提是得有个27'的超大显示器！
+5.python输入及输出
+输出使用print()库函数 
+可以接受多个字符 用户逗号进行隔开 可以连成一串进行输出
+>>>print('The quick brown fox', 'jumps over', 'the lazy dog')
+The quick brown fox jumps over the lazy dog
+//print()会依次打印每个字符串，遇到逗号“,”会输出一个空格
+
+可以打印整数及计算结果
+我们可以把计算100 + 200的结果打印得更漂亮一点：
+>>> print('100 + 200 =', 100 + 200)
+100 + 200 = 300
+注意，对于100 + 200，Python解释器自动计算出结果300
+'100 + 200 ='是字符串而非数学公式，Python把它视为字符串
+
+输入使用input()
+将输入存放在变量中(变量可以是整数 浮点数 还可以为字符串）
+>>>name=input()
+//输入jk之后按下回车 命令行继续回到>>>状态 直接将结果已经保存在了变量中
+//可以进行查看
+>>>name
+'jk'
+
+
+name = input('please enter your name: ')
+print('hello,', name)
+运行结果：
+C:\work> python hello.py
+please enter your name: Michael
+hello, Michael
+
+
