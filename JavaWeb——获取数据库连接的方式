@@ -1,0 +1,23 @@
+JDBC连接数据库：
+// 1. 注册 Driver
+// 2. 获取 Connection 通过 DriverManager
+/*
+Class.forName("com.mysql.jdbc.Driver");
+String url = "jdbc:mysql://127.0.0.1/DataBase名称?useSSL=false&characterEncoding=utf8";
+Connection connection = DriverManager.getConnection(url, "root", "0901btstjg");
+System.out.println(connection);
+ */
+
+DataSource获取Connection(可以直接拿到）
+//DataSource dataSource1 = new MysqlDataSource();// 这个不带有连接池
+MysqlConnectionPoolDataSource dataSource = new MysqlConnectionPoolDataSource();
+//带有连接池
+dataSource.setServerName("127.0.0.1");
+dataSource.setPort(3306);
+dataSource.setUser("root");
+dataSource.setPassword("");
+dataSource.setDatabaseName("tangshi");
+dataSource.setUseSSL(false);
+dataSource.setCharacterEncoding("UTF8");
+Connection connection = dataSource.getConnection()
+
