@@ -1,0 +1,29 @@
+package 字节流;
+
+import java.io.*;
+
+public class Read {
+    public static void main(String[] args) throws IOException {
+        /*File file=new File("测试目录\\测试文件.txt");
+        InputStream is=new FileInputStream(file);
+        byte[]buf=new byte[1024];
+        int len=is.read(buf);
+        System.out.println(len);
+        String s=new String(buf,0,len,"UTF-8");
+        System.out.println(s);
+        */
+        /*
+        int b;
+        while((b=is.read())!=-1) {//-1认为读到流的结尾
+            System.out.println(is.read());
+        }
+        */
+        String s="防弹少年团";
+        byte[] buf=s.getBytes("UTF-8");
+        InputStream is=new ByteArrayInputStream(buf);//每次从buf中读取一个字节
+        int b;
+        while((b=is.read())!=-1) {//-1认为读到流的结尾
+            System.out.println(b);
+        }
+    }
+}
