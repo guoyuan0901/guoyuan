@@ -1,0 +1,43 @@
+自定义函数：
+
+定义一个函数使用def语句:
+def my_abs(x):
+    if x>=0:
+        return x
+    else:
+        return -x
+#函数执行完毕也没有return语句时，自动return None。
+
+注意：在Python进行编写时会出现...的提示符，函数定义结束后需要两次回车重新回到>>>提示符：
+
+
+定义一个空函数：
+>>>def nop():
+    pass #代表当前未想好代码，用来占位 
+
+注意：自定义函数在进行参数匹配是，不会出现报错，需要手动进行规定参数类型
+def my_abs(x):
+    if not isinstance(x, (int, float)):
+        raise TypeError('bad operand type')
+    if x >= 0:
+        return x
+    else:
+        return -x
+
+
+
+返回多个值：
+import math
+def move(x, y, step, angle=0):
+    nx = x + step * math.cos(angle)
+    ny = y - step * math.sin(angle)
+    return nx, ny
+
+Python的函数返回多值其实就是返回一个tuple
+多个变量可以同时接受一个Tuple,按位置赋给对应的值
+>>> r = move(100, 100, 60, math.pi / 6)
+>>> print(r)
+(151.96152422706632, 70.0)
+
+
+
