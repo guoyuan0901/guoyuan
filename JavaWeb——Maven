@@ -1,0 +1,58 @@
+一个系统的开发是需要很多第三方库的（不是你们自己开发的代码）：
+以jar包形式提供
+分析依赖
+maven依赖路径：C:\Users\dell\.m2
+自动下载
+下载慢的原因：
+下载源在国外
+只配置了一个依赖，但实际下载的东西可能更多
+自动配置编译和运行阶段的查找关系
+编写期间，也需要*.class/*.java
+编译期间，需要*.class
+运行期间，也需要*.class(类的加载过程)
+编译期间：javac-cp 用来告诉编译器类放在哪里
+运行期间：<1.javac-cp 用来告诉编译器类放在哪里
+                  <2.环境变量 CLASSRPATH
+(IDEA标红发生在编译期间）
+
+maven是一个工具，相当于首及的app商城
+maven在运行时需要保持网络状况良好
+
+jar包（可以直接编程接口）
+jar 是 Java ARchive 的缩写，是一种基本 zip 格式的文件格式。目标是将 java 生成的类文件、资源文件、管理文件等按照特定的结构打包成一个独立的文件，方便程序的发布或网络的下载。
+去哪找好的jar包：Github下进行搜索
+1.自己写的代码打包成jar包
+2.使用别人写好的jar包
+Cmd(jar -help进行查看文档）
+使用cmd编译Notepad++步骤：
+      切换盘符+输入文件路径+编译运行
+
+打jar包：
+      Hello.jar是自己命名的jar包名字   后跟jar包的内容   将这些类进行压缩打包到Hello.jar包内
+
+运行jar包：
+        出现报错找不到类时，需要手动进行指定类的位置
+编译期间：
+javac -encoding UTF-8 -cp".;Hello.jar" Run.java
+//设置去当前路径或者Hello.jar进行查找类
+运行期间：配置环境变量
+   1.查看环境变量:set（所有配置的环境变量）
+   2.如何查看具体的环境变量:echo %path%(输出path所代表的的环境变量）
+   3.可以使用一次性的环境变量:set classpath=".;jar包名"
+
+
+IDEA
+打jar包：
+file——Project Structuer——Artifacts——“+”——jar——From modules with Dependenceies——根据需要，选择是否填充 Main.Class
+Build——Build actifacts——build
+运行jar包：out——artifacts——jar包——右击RUN
+使用别人的jar包;
+使用别人的路径：file——Project Structuer—librbrie“+”选择jar包路径
+再使用import进行导入
+maven
+新建一个maven工程
+在pom.xml中进行到入需要使用的配置
+进行编写代码
+
+
+
