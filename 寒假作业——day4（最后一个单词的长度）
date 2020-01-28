@@ -1,0 +1,21 @@
+package day4;
+
+public class 最后一个单词的长度 {
+        public static int lengthOfLastWord(String s) {
+            if(s.isEmpty()) {
+                return 0;
+            }//如果当前子为空串 返回0
+            else {
+                String[] group = s.split(" ");
+                if(group.length==0){
+                    return 0;
+                }//当前字符串中的内容全为空格
+                return group[group.length - 1].length();
+            }
+        }
+
+        public static void main(String[] args) {
+            String s="    ";
+            System.out.println(lengthOfLastWord(s));
+        }
+}
