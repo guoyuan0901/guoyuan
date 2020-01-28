@@ -1,0 +1,15 @@
+package day2;
+
+public class 搜索插入位置 {
+//有序数组找到target位置 没有则返回插入的位置
+    class Solution {
+        public int searchInsert(int[] nums, int target) {
+            for(int i=0;i<nums.length;i++) {
+                if (nums[i] >= target) {
+                    return i;
+                }
+            }
+            return nums.length;
+        }
+    }
+}
