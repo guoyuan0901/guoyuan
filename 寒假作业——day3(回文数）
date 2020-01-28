@@ -1,0 +1,25 @@
+package day3;
+
+public class 回文数 {
+        public static boolean isPalindrome(int x) {
+            if(x<0){
+                return false;
+            }else {
+                String s = String.valueOf(x);
+                StringBuilder stringBuilder = new StringBuilder(s);
+                stringBuilder.reverse();//进行逆置后的对象为Stringbuilder
+                String r=stringBuilder.toString();
+                int index=0;
+                if(s.equals(r)) {//stringBuilder对象不能进行比较
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+        }
+
+    public static void main(String[] args) {
+        int x=10;
+        System.out.println(isPalindrome(x));
+    }
+}
