@@ -1,0 +1,25 @@
+package day3;
+
+public class 赎金信 {
+    class Solution {
+        public boolean canConstruct(String ransomNote, String magazine) {
+            if(magazine==null){
+                return false;
+            }
+            if(ransomNote==null){
+                return false;
+            }
+            StringBuilder string=new StringBuilder(magazine);//新建一个StringBuilder对象
+            int index;
+            for(char c:ransomNote.toCharArray()){
+               index=string.indexOf(String.valueOf(c));//在magazine中查找ransomNote对象的值 找到后进行删除 否则失败
+               if(index>=0){
+                   string.deleteCharAt(index);
+               }else{
+                   return false;
+               }
+            }
+            return true;
+        }
+    }
+}
