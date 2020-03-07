@@ -1,0 +1,40 @@
+package day6;
+
+import java.util.Arrays;
+import java.util.Scanner;
+
+public class 奇偶校验 {
+    public static void main(String[] args) {
+        Scanner in=new Scanner(System.in);
+        while(in.hasNext()){
+            String s=in.nextLine();
+            char[]array=s.toCharArray();
+            for(char c:array) {
+              oddNum(c);
+            }
+        }
+    }
+
+    private static void oddNum(char c) {
+        int count=7;//左移7次，最后一位（最高位）需要根据奇数偶数进行变化
+        int odd=0;
+        int []num=new int[8];//用来存储每个bit位
+        int x =(int) c;//将字符转为int型
+        while (count > 0) {
+            num[count] = x &0x01;//每次与1进行与，得到最后一位数字
+            if (num[count] == 1) {
+                odd++;
+            }
+            x=x>>1;//左移1位，继续与1相与，得到数字，
+            count--;
+        }
+        if (odd % 2 == 0) {
+            num[0] = 1;
+        }
+        for(int n:num){
+            System.out.print(n);
+        }
+        System.out.println();
+    }
+
+}
