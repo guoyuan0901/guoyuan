@@ -1,0 +1,26 @@
+package day6;
+
+import java.math.BigInteger;
+import java.util.Arrays;
+import java.util.Scanner;
+//数字长度<1000
+//数据已经超过了整数的最大类型长度long，此数据就无法装入
+// 所以，此时要使用BigInteger类进行操作。这些大数都会以字符串的形式传入。
+//BigInteger可以处理任意长度的整形数据
+//BigDecimal处理任意长度的浮点数
+public class 大整数排序 {
+    public static void main(String[] args) {
+        Scanner in=new Scanner(System.in);
+        while(in.hasNext()){
+            int n=in.nextInt();
+            BigInteger[]array=new BigInteger[n];
+            for(int i=0;i<n;i++){
+                array[i]=in.nextBigInteger();
+            }
+            Arrays.sort(array);
+            for(BigInteger m:array){
+                System.out.println(m);
+            }
+        }
+    }
+}
