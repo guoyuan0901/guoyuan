@@ -1,0 +1,64 @@
+package day8;
+import java.util.*;
+public class 在霍格沃茨找零钱 {
+    public static void main(String[] args) {
+        Scanner in=new Scanner(System.in);
+        while(in.hasNext()) {
+            String p = in.next();//需要支付的钱
+            String a = in.next();//顾客的钱
+            String[] p1 = p.split("\\.");
+            int[] b = new int[3];
+            for (int i = 0; i < 3; i++) {
+                b[i] = Integer.parseInt(p1[i]);
+            }
+            String[] a1 = a.split("\\.");
+            int[] c = new int[3];
+            for (int i = 0; i < 3; i++) {
+                c[i] = Integer.parseInt(a1[i]);
+            }
+            int[] result = new int[3];
+            int x = (b[0] * 17 + b[1]) * 29 + b[2];//支付的钱
+            int y = (c[0] * 17 + c[1]) * 29 + c[2];//拥有的钱
+
+            for (int i = 0; i < 3; i++) {
+                if (x > y) {
+                    result[i] =b[i]-c[i] ;
+                } else {
+                    result[i] =c[i]-b[i];
+                }
+            }//将相减的值放入数组result中
+            //根据相关情况  具体进行进位 借位
+            if (result[2] < 0) {
+                result[1] -= 1;
+                result[2] += 29;
+                if (result[1] < 0) {
+                    result[0] -= 1;
+                    result[1] += 17;
+                }
+            } else {
+                if (result[1] < 0) {
+                    result[0] -= 1;
+                    result[1] += 17;
+                }
+            }
+            if(x>y) {//客户拥有的钱小于需要支付的钱是 应该为负值
+                System.out.print("-");
+                for (int i = 0; i < 3; i++) {
+                    if (i < 2) {
+                        System.out.print(result[i] + ".");
+                    } else {
+                        System.out.print(result[i]);
+                    }
+                }
+            }else{
+                for (int i = 0; i < 3; i++) {
+                    if (i < 2) {
+                        System.out.print(result[i] + ".");
+                    } else {
+                        System.out.print(result[i]);
+                    }
+                }
+            }
+        }
+    }
+}
