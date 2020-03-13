@@ -1,0 +1,28 @@
+package day10;
+
+import java.util.Arrays;
+import java.util.Scanner;
+import static java.lang.StrictMath.acos;
+
+public class 球的半径和体积 {
+    public static void main(String[] args) {
+        Scanner in=new Scanner(System.in);
+        while(in.hasNext()){
+            String line=in.nextLine();
+            String[]array=line.split(" ");
+            int[]num=new int[6];
+            for(int i=0;i<6;i++){
+                num[i]=Integer.parseInt(array[i]);
+            }
+            double sum=0.0;
+            for(int i=0;i<3;i++){
+                int n=num[3+i]-num[i];
+                sum+=n*n;
+            }
+            double r=Math.sqrt(sum);
+            System.out.printf("%.3f",r);
+            System.out.printf(" ");
+            System.out.printf("%.3f",(4.0*Math.PI*Math.pow(r,3))/3.0);
+        }
+    }
+}
