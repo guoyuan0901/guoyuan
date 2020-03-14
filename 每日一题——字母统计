@@ -1,0 +1,28 @@
+package day12;
+import java.util.*;
+public class 字母统计 {
+    public static void main(String[] args) {
+        Scanner in=new Scanner(System.in);
+        char[]array={'A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z'};
+        int[]num=new int[26];//用来存储每个字母出现的次数
+        while(in.hasNext()){
+            String line=in.nextLine();
+            StringBuffer stringBuffer=new StringBuffer();
+            for(int i=0;i<line.length();i++){
+                if(line.charAt(i)>='A'&&line.charAt(i)<='Z'){
+                    stringBuffer.append(line.charAt(i));
+                }
+            }//删选出字母A-Z的字符串
+            for(int i=0;i<26;i++){
+                for(int j=0;j<stringBuffer.length();j++) {
+                    if (stringBuffer.charAt(j)==array[i]) {
+                        num[i]++;
+                    }
+                }
+            }//算出对应字母的次数
+            for(int i=0;i<26;i++){
+                System.out.println(array[i]+":"+num[i]);
+            }
+        }
+    }
+}
