@@ -1,0 +1,18 @@
+package day12;
+
+import java.util.Scanner;
+
+public class 进制转换 {
+    //0xA
+    //10(这里的A不是十进制而是16进制 16进制为0-9 A-F)
+    public static void main(String[] args) {
+        Scanner in=new Scanner(System.in);
+        while(in.hasNext()){
+            String s=in.nextLine();
+            System.out.println(Integer.decode(s));
+            //decode将String解码为8进制 10进制 16进制
+            //-0X123中-是符号位，0X是基数说明符（0表示八进制，0x,0X，#表示十六进制，什么都不写则表示十进制
+            //System.out.println(Integer.parseInt(str.substring(2),16));
+        }
+    }
+}
