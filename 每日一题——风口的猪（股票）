@@ -1,0 +1,27 @@
+package day11;
+
+public class 风口中的猪 {
+    /**
+     * 计算你能获得的最大收益
+     *
+     * @param prices Prices[i]即第i天的股价
+     * @return 整型
+     */
+    public int calculateMax(int[] prices) {
+        int firstBuy=Integer.MIN_VALUE;
+        int firstSell=0;
+        int secondBuy=Integer.MIN_VALUE;
+        int secondSell=0;
+        for(int n:prices){
+            //第一次买入的价格应该是越小越好，最好是负数，倒贴钱
+            firstBuy=Math.min(firstBuy,n);
+            //第一次卖出后的收益，等于当前价格减去第一次买入价格，越高越好
+            firstSell=Math.max(firstSell,n-firstBuy);
+            //第二次买入后的收益，等于第一次卖出后的收益减去当前价格，越高越好
+            secondBuy=Math.max(secondBuy,firstSell-n);
+            //第二次卖出后的收益，等于第二次买入后的收益加上当前价格，越高越好
+            secondSell=Math.max(secondSell,secondBuy+n);
+        }
+        return secondSell;
+    }
+}
