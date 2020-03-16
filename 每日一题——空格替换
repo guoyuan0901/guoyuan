@@ -1,0 +1,15 @@
+package day14;
+
+public class 空格替换 {
+    public static String replaceSpace(String iniString, int length) {
+        StringBuffer str=new StringBuffer();//有几个空格就需要替换记得%20
+        for(int i=0;i<length;i++){
+            if(iniString.charAt(i)==' '){
+                str.append("%20");
+            }else{
+                str.append(iniString.charAt(i));
+            }
+        }
+        return str.toString();
+    }
+}
