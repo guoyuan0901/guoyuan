@@ -1,0 +1,16 @@
+package day14;
+
+public class 最近公共祖先 {
+    //由于是满二叉树，所以root=child/2;
+    //a与b可能不是同一层，所以需要进行判断
+    public int getLCA(int a, int b) {
+        while(a!=b){
+            if(a>b){
+                a/=2;
+            }else{
+                b/=2;
+            }
+        }
+        return a;
+    }
+}
