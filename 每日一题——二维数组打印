@@ -1,0 +1,41 @@
+package day15;
+
+import java.util.Arrays;
+
+public class 二维数组打印 {
+    //按照对角线进行打印
+    //从右上角至左下角
+    public static int[] arrayPrint(int[][] arr, int n) {
+        int[] array = new int[n * n];//用来存储最后输出的数组
+        int index = 0;//数组下标
+        int x=0;
+        int y=0;
+        //先处理上三角
+        //每次开头的下标都是（0，j),j每次减1
+        for (int j = n - 1; j >= 0; j--) {
+            x = 0;
+            y=j;
+            array[index++] = arr[x][y];
+            while (n - 1>y) {
+                array[index++] = arr[++x][++y];
+            }
+        }
+        //处理下三角
+        //开始下标为（i,0），i从1开始，依次加1
+        for (int i = 1; i < n; i++) {
+            y = 0;
+            x=i;
+            array[index++] = arr[x][y];
+            while (n - 1>x) {
+                array[index++] = arr[++x][++y];
+            }
+        }
+        return array;
+    }
+
+    public static void main(String[] args) {
+        int[][]arr={{1,2,3,4},{5,6,7,8},{9,10,11,12},{13,14,15,16}};
+        int n=4;
+        System.out.println(Arrays.toString(arrayPrint(arr,n)));
+    }
+}
