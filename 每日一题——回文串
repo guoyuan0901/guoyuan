@@ -1,0 +1,47 @@
+package day15;
+
+import java.util.Scanner;
+
+public class 回文串 {
+    //要求一个字符串通过加一个字符可以变成回文串
+    public static void main(String[] args) {
+        Scanner in=new Scanner(System.in);
+        while(in.hasNext()){
+            String s=in.nextLine();
+            int i=0;
+            int j=s.length()-1;
+            int flag=0;
+           while(i<=j) {
+               if (s.charAt(i) != s.charAt(j)) {//第一个与最后一个字符不相同
+                   if ((i + 1) <= j && s.charAt(i + 1) == s.charAt(j)) {
+                       i++;
+                       flag++;
+                   } else if (j - 1 >= i && s.charAt(j - 1) == s.charAt(i)) {
+                       j--;
+                       flag++;
+                   } else {
+                       flag += 2;
+                       break;
+                   }
+               } else {
+                   i++;
+                   j--;
+               }
+           }
+           if(flag<2){
+               System.out.println("YES");
+           }else{
+               System.out.println("NO");
+           }
+        }
+    }
+
+    private static boolean IsEqual(String s) {
+        StringBuffer stringBuffer=new StringBuffer(s).reverse();
+        if(stringBuffer.equals(s)){
+            return true;
+        }else {
+            return false;
+        }
+    }
+}
