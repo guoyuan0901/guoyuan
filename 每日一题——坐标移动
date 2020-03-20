@@ -1,0 +1,39 @@
+package day17;
+
+import java.util.*;
+
+public class 坐标移动 {
+    public static void main(String[] args) {
+        Scanner in = new Scanner(System.in);
+        while (in.hasNext()) {
+            String line=in.nextLine();
+            String[]array=line.split(";");
+            int x=0;
+            int y=0;
+            for(int i=0;i<array.length;i++){
+                //if(array[i].substring(1).matches("[0-9]+")) {//matches()用来查看一个字符串是否是数字
+                    //[0-9]+便是在找到的0-9的范围内再匹配一次以上
+                if(((array[i].length() == 3&& array[i].substring(2).matches("[0-9]")) || ((array[i].length() == 2) && array[i].substring(1).matches("[0-9]")))) {
+                   //因为规定只有两位数字，所以其余的字符串都是非法字符串
+                    switch (array[i].charAt(0)) {
+                        case 'A'://左
+                            x -= Integer.parseInt(array[i].substring(1));
+                            break;
+                        case 'D'://右
+                            x += Integer.parseInt(array[i].substring(1));
+                            break;
+                        case 'W'://上
+                            y += Integer.parseInt(array[i].substring(1));
+                            break;
+                        case 'S'://下
+                            y -= Integer.parseInt(array[i].substring(1));
+                            break;
+                        default:
+                            break;
+                    }
+                }
+            }
+            System.out.println(x+","+y);
+        }
+    }
+}
