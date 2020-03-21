@@ -1,0 +1,71 @@
+package day18;
+
+import java.util.Scanner;
+
+public class 字符串加解密 {
+    //如果是数字加密+1.解密-1
+    //如果是字符串加密+1，解密-1（换成大写字母）
+
+
+    public static void main(String[] args) {
+        Scanner in = new Scanner(System.in);
+        while (in.hasNext()) {
+            String encryption = in.nextLine();
+            String unencryption = in.nextLine();
+            char[] encrypt = encryption.toCharArray();
+            char[] unencrypt = unencryption.toCharArray();
+            Encrypt(encrypt);//加密
+            unEncrypt(unencrypt);//解密
+        }
+    }
+
+    private static void Encrypt(char[] encrypt) {
+        String result = new String();
+        for (char c : encrypt) {
+            if (c >= 'a' && c <= 'z') {
+                if (c == 'z')
+                    result += 'A';
+                else
+                    result += (char) (c + 1 - 32);
+            } else if (c >= '0' && c <= '9') {
+                if (c == '9')
+                    result += '0';
+                else
+                    result += (char) (c +1);
+            } else if (c >= 'A' && c <= 'Z') {
+                if(c=='Z')
+                    result+='a';
+                else
+                    result += (char) (c + 1 + 32);
+            }else{
+                result+=c;
+            }
+        }
+        System.out.println(result);
+    }
+
+    private static void unEncrypt(char[] unencrypt) {
+        String result = new String();
+        for (char c : unencrypt) {
+            if (c>='A' && c<='Z') {
+                if (c == 'A')
+                    result +='z';
+                else
+                    result += (char) (c-1+32);
+            } else if(c>='a'&&c<='z') {
+                if(c=='a')
+                    result+='Z';
+                else
+                    result += (char) (c-1-32);
+            }else if (c >= '0' && c <= '9') {
+                if (c == '0')
+                    result += '9';
+                else
+                    result += (char)(c-1);
+            }
+            else
+                result+=c;
+        }
+        System.out.println(result);
+    }
+}
