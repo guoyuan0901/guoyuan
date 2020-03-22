@@ -1,0 +1,40 @@
+package day19;
+
+import java.util.*;
+//公司的Help Desk号码是4357，因为4对应H、3对应E、5对应L、7对应P，因此4357就是HELP。同理，TUT-GLOP就代表888-4567、310-GINO代表310-4466。
+//要求电话号码为XXX-XXXX
+public class 电话号码{
+    public static void main(String[] args){
+        String zm="ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
+        String number="222333444555666777788899991234567890";
+        Scanner in=new Scanner(System.in);
+        while(in.hasNext()){
+            int n=in.nextInt();//字符串的个数
+            ArrayList<String> arrayList=new ArrayList<>();//用来存储输入字符串
+            for(int i=0;i<n;i++){
+                String str=in.next();
+                String result="";//转换后的电话号码
+                int count=0;
+                for (int j = 0; j < str.length(); j++) {
+                    if(count==3){
+                        result+="-";
+                        count++;
+                    }
+                    for(int k=0;k<zm.length();k++) {
+                        if (zm.charAt(k) == str.charAt(j)) {
+                           result+=number.charAt(k);
+                            count++;
+                        }
+                    }
+                }
+                if(!arrayList.contains(result))//重复不再进行添加
+                    arrayList.add(result);
+            }
+            Collections.sort(arrayList);//对好拿进行排序
+            for(int j=0;j<arrayList.size();j++){
+                System.out.println(arrayList.get(j));
+            }
+            System.out.println();
+        }
+    }
+}
