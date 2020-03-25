@@ -1,0 +1,42 @@
+package day21;
+
+import java.util.*;
+
+public class 查找兄弟单词 {
+    public static void main(String[] args) {
+        Scanner in=new Scanner(System.in);
+        while(in.hasNext()){
+            int n=in.nextInt();
+            String[]array=new String[n];
+            for(int i=0;i<n;i++){
+                array[i]=in.next();
+            }
+            String key=in.next();
+            int k=in.nextInt();//输出兄弟结点中第k个
+            int count=0;
+            List<String> bro=new ArrayList<>();//用来存储找到的兄弟结点
+            for(int i=0;i<array.length;i++){
+                if(array[i].length()==key.length()&&!array[i].equals(key)){//删选出长度一致且不相同的
+                    List<Character> list=new ArrayList<>();
+                    for(char c:array[i].toCharArray()){
+                        list.add(c);
+                    }
+                    for(int j=0;j<key.length();j++){//在字符串中，删除其中存在的字母，直至为0
+                        if (list.contains(key.charAt(j))) {
+                            list.remove(list.indexOf(key.charAt(j)));
+                        }
+                    }
+                    if(list.size()==0) {//长度为0代表是兄弟结点
+                        bro.add(array[i]);
+                        count++;
+                    }
+                }
+            }
+           Collections.sort(bro);//需要进行排序
+            System.out.println(count);
+            if(k<=bro.size()) {//边界条件
+                System.out.println(bro.get(k - 1));
+            }
+        }
+    }
+}
