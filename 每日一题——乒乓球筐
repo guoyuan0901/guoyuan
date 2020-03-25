@@ -1,0 +1,38 @@
+package day21;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
+
+public class 乒乓球框 {
+    //首先A要包含B中所有单词，而且数目要大于等于B
+    public static void main(String[] args) {
+        Scanner in=new Scanner(System.in);
+        while(in.hasNext()) {
+            char[] s1 = in.next().toCharArray();
+            char[] s2 = in.next().toCharArray();
+            List<Character> A = new ArrayList<>();
+            List<Character> B = new ArrayList<>();
+            for (char c : s1) {
+                A.add(c);
+            }
+            for (char c : s2) {
+                B.add(c);
+            }
+            for (int i = 0; i < B.size(); i++) {
+                if (A.contains(B.get(i))) {
+                    A.remove(A.get(A.indexOf(B.get(i))));
+                    B.remove(i);
+                    i--;
+                }
+            }
+            if (B.size() == 0) {
+                System.out.println("Yes");
+            } else {
+                System.out.println("No");
+            }
+            A=null;
+            B=null;
+        }
+    }
+}
