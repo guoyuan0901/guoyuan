@@ -1,0 +1,22 @@
+package day22;
+
+import java.util.HashMap;
+import java.util.Map;
+
+public class 数组中出现次数超过一半的数字 {
+    public int MoreThanHalfNum_Solution(int[] array) {
+        Map<Integer, Integer> map = new HashMap<>();
+        int n = 0;
+        for (int a : array) {
+            n=map.getOrDefault(a, 0);
+            map.put(a,n+1);
+        }
+        for (Map.Entry<Integer, Integer> e : map.entrySet()) {
+            int num = e.getValue();
+            if (num > array.length / 2) {
+                return e.getKey();
+            }
+        }
+        return 0;
+    }
+}
