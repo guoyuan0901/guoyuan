@@ -1,0 +1,43 @@
+package day22;
+
+import java.util.LinkedHashMap;
+import java.util.Scanner;
+
+public class 简单错误记录 {
+    //1.记录最多8条错误记录，循环记录（或者说最后只输出最后出现的八条错误记录）
+    // 对相同的错误记录（净文件名称和行号完全匹配）只记录一条，错误计数增加；
+    //2、 超过16个字符的文件名称，只记录文件的最后有效16个字符；
+    //3、 输入的文件可能带路径，记录文件名称不能带路径。
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        LinkedHashMap<String, Integer> map = new LinkedHashMap<>();//LinkedHashMap可以保证按照存入顺序
+        //用来存储记录，相同记录名只记录一条，次数增加
+        while (sc.hasNext()) {
+            String s = sc.nextLine();
+            String key = null;
+            if (s.contains("\\")) {
+                key = s.substring(s.lastIndexOf("\\") + 1);//找到文件名
+            } else {
+                key = s;
+            }
+            if (map.containsKey(key)) {//净文件名称和行号完全匹配只记录一条,
+                map.put(key, map.get(key) + 1);
+            } else {
+                map.put(key, 1);//这里的净文件名,必须记录全名字，之后再处理16位字符的情况
+            }
+        }
+        int count = 0;
+        for (String string : map.keySet()) {
+            count++;
+            if (count > map.size() - 8) {//由于实在没有找到map中删除首先加入key的方法，使map循环保留8个size,故采用了别人的输出最后8个的方法。
+                String[] ss = string.split(" ");//存进去的是文件以及文件的字节数，所以要进行分割
+                if (ss[0].length() > 16) {// 超过16个字符的文件名称，只记录文件的最后有效16个字符
+                    String str = ss[0].substring(ss[0].length() - 16) + " " + ss[1];
+                    System.out.println(str + " " + map.get(string));
+                } else {
+                    System.out.println(string + " " + map.get(string));
+                }
+            }
+        }
+    }
+}
