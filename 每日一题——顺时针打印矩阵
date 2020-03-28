@@ -1,0 +1,43 @@
+package day25;
+
+public class 顺时针打印矩阵 {
+    public int[] clockwisePrint(int[][] mat, int n, int m) {
+        int a[] = new int[n * m];
+        int startX = 0;
+        int startY = 0;
+        int endX = m - 1;
+        int endY = n - 1;
+        int k = 0;
+        while(startX<=endX&&startY<=endY) {
+            //上边
+            if (startX <=endX) {
+                for (int i = startX; i <= endX; i++) {
+                    a[k++] = mat[startY][i];
+                }
+            }
+            //右边
+            if (startY <=endY) {
+                for (int j = startY + 1; j <= endY; j++) {
+                    a[k++] = mat[j][endX];
+                }
+            }
+            //下边
+            if (startX < endX && startY < endY) {
+                for (int i = endX - 1; i >= startX; i--) {
+                    a[k++] = mat[endY][i];
+                }
+            }
+            //左边
+            if (startX < endX && startY < endY) {
+                for (int j = endY - 1; j >= startY + 1; j--) {
+                    a[k++] = mat[j][startX];
+                }
+            }
+            startX++;
+            endX--;
+            startY++;
+            endY--;
+        }
+        return a;
+    }
+}
