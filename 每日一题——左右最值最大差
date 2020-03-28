@@ -1,0 +1,17 @@
+package day25;
+
+public class 左右最值最大差{
+    //因为选出来的最大值是数组中最大的，所以其余值都比该数字小
+    //而最大差值，就是当最小值在两边的边界值时
+    public int findMaxGap(int[] A, int n) {
+        int max=A[0];
+        int min=A[0];
+        for(int i=0;i<A.length;i++){
+            if(A[i]>max){
+                max=A[i];
+            }
+           min=A[0]>A[n-1]?A[n-1]:A[0];
+        }
+        return max-min;
+    }
+}
