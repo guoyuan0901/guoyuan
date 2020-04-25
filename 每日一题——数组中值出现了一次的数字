@@ -1,0 +1,40 @@
+package Test;
+
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Scanner;
+
+public class 数组中值出现了一次的数字 {
+    public static void main(String[] args) {
+        Scanner in=new Scanner(System.in);
+        while(in.hasNext()){
+            int num=in.nextInt();
+            int[]array=new int[num];
+            for(int i=0;i<num;i++){
+                array[i]=in.nextInt();
+            }
+            Map<Integer,Integer> map=new HashMap<>();
+           for(int a:array){
+               int n=map.getOrDefault(a,0);
+               map.put(a,n+1);
+            }
+           int[] arr=new int[2];//值允许显示一个数组中有两个出现次数为奇数的数字
+           int count=0;
+            for(Map.Entry<Integer,Integer> e:map.entrySet()){
+                if(e.getValue()%2==1){
+                   count++;
+                }
+            }//判断出现奇数次的数字个数
+            if(count==2) {
+                for (Map.Entry<Integer, Integer> e : map.entrySet()) {
+                    if (e.getValue() % 2 == 1) {
+                        arr[--count] = e.getKey();
+                    }
+                }
+                Arrays.sort(arr);//要求按大小排序
+                System.out.println(arr[0] + " " + arr[1]);
+            }
+        }
+    }
+}
