@@ -1,0 +1,33 @@
+package Test;
+
+import java.util.Scanner;
+
+public class 单调栈结构 {
+    public static void main(String[] args) {
+        Scanner in=new Scanner(System.in);
+        while(in.hasNext()){
+            int n=in.nextInt();
+            int[]array=new int[n];
+            for(int i=0;i<n;i++){
+                array[i]=in.nextInt();
+            }
+            for(int i=0;i<n;i++){
+                int left=-1;
+                int right=-1;
+                for(int j=i-1;j>=0;j--){
+                    if(array[j]<array[i]) {
+                        left = j;
+                        break;
+                    }
+                }
+                for(int j=i+1;j<n;j++){
+                    if(array[j]<array[i]) {
+                        right = j;
+                        break;
+                    }
+                }
+                System.out.println(left+" "+right);
+            }
+        }
+    }
+}
