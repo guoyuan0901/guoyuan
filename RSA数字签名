@@ -1,0 +1,106 @@
+import java.security.KeyFactory;
+import java.security.KeyPair;
+import java.security.KeyPairGenerator;
+import java.security.NoSuchAlgorithmException;
+import java.security.PrivateKey;
+import java.security.PublicKey;
+import java.security.Signature;
+import java.security.interfaces.RSAPrivateKey;
+import java.security.interfaces.RSAPublicKey;
+import java.security.spec.PKCS8EncodedKeySpec;
+import java.security.spec.X509EncodedKeySpec;
+import java.util.HashMap;
+
+import org.apache.commons.codec.binary.Hex;
+
+public class RSA数字签名 {
+    /**
+     * 生成公钥和私钥
+     * @return
+     * @throws NoSuchAlgorithmException
+     */
+    public static HashMap<String, Object> getKeys() {
+        HashMap<String, Object> map = new HashMap<String, Object>();
+        KeyPairGenerator generator = null;
+        try {
+            generator = KeyPairGenerator.getInstance("RSA");
+        } catch (Exception e) {
+            return null;
+        }
+        generator.initialize(1024);
+        KeyPair keyPair = generator.generateKeyPair();
+        RSAPublicKey rsapubKey = (RSAPublicKey)keyPair.getPublic();
+        RSAPrivateKey rsapriKey = (RSAPrivateKey)keyPair.getPrivate();
+        map.put("pubKey", rsapubKey);
+        map.put("priKey", rsapriKey);
+        return map;
+    }
+    /**
+     * 私密加密
+     * @param data
+     * @param priKey
+     * @return
+     * @throws Exception
+     */
+    public static String encryptByPriKey(String data, RSAPrivateKey priKey){
+        PKCS8EncodedKeySpec keySpec = new PKCS8EncodedKeySpec(priKey.getEncoded());
+        KeyFactory keyFactory;
+        PrivateKey key;
+        Signature sign;
+        byte[] result = null;
+        try {
+            keyFactory = KeyFactory.getInstance("RSA");
+            key = keyFactory.generatePrivate(keySpec);
+            sign = Signature.getInstance("MD5withRSA");
+            sign.initSign(key);
+            sign.update(data.getBytes());// 处理的内容
+            result = sign.sign();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        System.out.println("rsa sign:"+Hex.encodeHexString(result));
+        System.out.println("sign len:"+result.length+",str hex:"+Hex.encodeHexString(result).length());
+        return Hex.encodeHexString(result);
+    }
+    /**
+     * 公钥验证
+     * @param data
+     * @param pubKey
+     * @param res
+     * @return
+     * @throws Exception
+     */
+    public static boolean decryptByPubKey(String data, RSAPublicKey pubKey, String res) {
+        System.out.println("res len:"+res.length());
+        X509EncodedKeySpec x509KeySpec = new X509EncodedKeySpec(pubKey.getEncoded());
+        KeyFactory keyFactory;
+        PublicKey key;
+        Signature sign;
+        boolean result = false;
+        try {
+            keyFactory = KeyFactory.getInstance("RSA");
+            key = keyFactory.generatePublic(x509KeySpec);
+            sign = Signature.getInstance("MD5withRSA");
+            sign.initVerify(key);
+            sign.update(data.getBytes());
+            result = sign.verify(Hex.decodeHex(res.toCharArray()));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        System.out.println("rsa verify:"+result);
+        return result;
+    }
+    public final static String src = "hello world hello world hello world hello world hello world hello worldhello worldhello world hello world hello world hello world hello worldhello world hello world hello world hello world v hello world hello world hello world vhello world hello world";
+    public final static String _src = "hello world hello world hello world hello world hello world hello worldhello worldhello world hello world hello world hello world hello worldhello world hello world hello world hello world v hello world hello world hello world vhello world hello world";
+    public static void main(String[] args) {
+        // 登录rosp返回给客户端
+        HashMap<String, Object> map = RSA数字签名.getKeys();
+        RSAPublicKey pubKey = (RSAPublicKey) map.get("pubKey");
+        RSAPrivateKey priKey = (RSAPrivateKey) map.get("priKey");
+        // 客户端get提交给服务器
+        String res= RSA数字签名.encryptByPriKey(src, priKey);
+        // 服务端验证
+        RSA数字签名.decryptByPubKey(_src, pubKey, res);
+    }
+
+}
