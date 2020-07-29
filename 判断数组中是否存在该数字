@@ -1,0 +1,18 @@
+public class Solution {
+    public boolean Find(int target, int [][] array) {
+        if(array.length==0)
+            return false;
+        int i=0;//行
+        int j=array[i].length-1;//列
+        while(i<array.length&&j>=0){
+            if(target<array[i][j]){
+                j--;
+            }else if(target>array[i][j]){
+                i++;
+            }else{
+                return true;
+            }
+        }
+        return false;
+    }
+}
