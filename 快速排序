@@ -1,0 +1,17 @@
+private static int partition1(int []array,int left,int right){
+        int privot=array[left];
+        int begin=left;
+        int end=right;
+        while(begin<end) {
+            while (begin<end&&array[end] >= privot) {
+                end--;
+            }
+            array[begin] = array[end];
+            while (begin<end&&array[begin] <= privot) {
+                begin++;
+            }
+            array[end] = array[begin];
+        }
+        array[begin] = privot;
+        return begin;
+    }//挖坑填值
