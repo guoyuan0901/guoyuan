@@ -1,0 +1,17 @@
+import java.util.ArrayList;
+public class Solution {
+    public ArrayList<Integer> printListFromTailToHead(ListNode listNode) {
+        ArrayList<Integer> list=new ArrayList<>();
+        ListNode ret=null;
+        while(listNode!=null){
+            ListNode next=listNode.next;
+            listNode.next=ret;
+            ret=listNode;
+            listNode=next;
+        }
+        for(;ret!=null;ret=ret.next){
+            list.add(ret.val);
+        }
+        return list;
+    }
+}
