@@ -1,0 +1,33 @@
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Scanner;
+import java.util.TreeMap;
+
+public class Main{
+    public static void main(String[]args){
+        Scanner in=new Scanner(System.in);
+        while(in.hasNext()){
+            String s=in.nextLine();
+            Map<Character,Integer> map=new HashMap<>();
+            if(s.length()==0||s==null){
+                System.out.println(0);
+            }
+            char[]array=s.toCharArray();
+            StringBuffer str=new StringBuffer();
+            str.append(array[0]);
+            int num=1;
+            for(int i=1;i<array.length;i++) {
+                if ((array[i] >= 'a' && array[i] <= 'z') || (array[i] >= 'A' && array[i] <= 'Z')) {
+                    if(array[i]!=array[i-1]){
+                        str=str.append(num+String.valueOf(array[i]));
+                        num=1;
+                    }else
+                        num++;
+                }
+
+            }
+            System.out.println(str.append(num));
+        }
+
+    }
+}
