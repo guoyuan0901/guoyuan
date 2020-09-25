@@ -1,0 +1,55 @@
+1.暴力解法，需要考虑为负数情况
+public class Solution {
+    public double Power(double base, int exponent) {
+        double e=1.0;
+        while(exponent<0){
+            e/=base;
+            exponent++;
+        }
+        while(exponent>0){
+            e*=base;
+            exponent--;
+        }
+        return e;
+  }
+}
+2.递归（负数的次方与正数一致，在结果算出后1/result即可）
+public class Solution {
+    public static double Power(double base, int exponent) {
+        boolean flag=true;;
+        if(exponent<0){
+            exponent=-exponent;
+            flag=false;
+        }
+        double ret=asPower(base,exponent);
+        return flag==true?ret:1/ret;
+        
+    }
+    public static double asPower(double base,int exponent){
+        if(exponent==0)
+            return 1.0;
+        double ret=Power(base,exponent/2);
+        if(exponent%2==1){
+            return ret*ret*base;
+        }else
+            return ret*ret;
+    }
+}
+3.移位
+public class Solution {
+    public double Power(double base, int exponent) {
+        if(exponent<0){
+            base=1/base;
+            exponent=-exponent;
+        }
+        double ret=1.0;
+        while(exponent!=0){
+            if((exponent&1)==1){
+                ret*=base;
+            }
+            exponent=exponent>>>1;
+            base*=base;
+        }
+        return ret;
+  }
+}
