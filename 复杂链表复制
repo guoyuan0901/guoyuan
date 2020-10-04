@@ -1,0 +1,33 @@
+import java.util.*;
+public class Solution {
+    public RandomListNode Clone(RandomListNode pHead)
+    {
+        if(pHead==null)
+            return null;
+        RandomListNode head=pHead;
+        while(head!=null){
+            RandomListNode node=new RandomListNode(head.label);
+            node.next=head.next;
+            head.next=node;
+            head=node.next;
+        }
+        head=pHead;
+        while(head!=null){
+            RandomListNode p2=head.next;
+            if(head.random!=null)
+                p2.random=head.random.next;
+            head=p2.next;
+        }
+        head=pHead;
+        RandomListNode newHead=pHead.next;
+        while(head!=null){
+            RandomListNode p2=head.next;
+            head.next=p2.next;
+            if(p2.next!=null){
+                p2.next=p2.next.next;
+            }
+            head=head.next;
+        }
+        return newHead;
+    }
+}
