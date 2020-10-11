@@ -1,0 +1,59 @@
+import java.util.*;
+public class main1 {
+    public static void main(String[] args) {
+        int[]A={0,-2};
+        int[]B={10,0,-1};
+        int len = A.length + B.length;
+        int[] ret = new int[len];
+        int index = 0;
+        if (A.length == 0) {
+            for (int i = B.length - 1; i >= 0; i--) {
+                ret[index++] = B[i];
+            }
+            System.out.println(Arrays.toString(ret));
+        }
+        if (B.length == 0) {
+            for (int i = A.length - 1; i >= 0; i--) {
+                ret[index++] = A[i];
+            }
+            System.out.println(Arrays.toString(ret));
+        }
+        if (A.length == 0 && B.length == 0)
+            System.out.println(Arrays.toString(ret));
+        int index1 = A.length - 1;
+        int index2 = B.length - 1;
+        if (A[0] > A[1]) {//降序排升序
+            while (index1 >= 0 && index2 >= 0) {
+                if (A[index1] < B[index2]) {
+                    ret[index++] = A[index1--];
+                } else {
+                    ret[index++] = B[index2--];
+                }
+            }
+            if (index1 >= 0) {
+                ret[index++] = A[index1--];
+            }
+            if (index2 >= 0) {
+                ret[index++] = B[index2--];
+            }
+            System.out.println(Arrays.toString(ret));
+        } else {
+            while (index1 >= 0 && index2 >= 0) {
+                if (A[index1] > B[index2]) {
+                    ret[index++] = A[index1--];
+                } else {
+                    ret[index++] = B[index2--];
+                }
+            }
+            if (index1 >=0) {
+                ret[index++] = A[index1--];
+            }
+            if (index2 >= 0) {
+                ret[index++] = B[index2--];
+            }
+            System.out.println(Arrays.toString(ret));
+        }
+    }
+
+
+}
