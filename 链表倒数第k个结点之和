@@ -1,0 +1,21 @@
+import java.util.*;
+public class Main {
+    public static void main(String[] args) {
+        Scanner in = new Scanner(System.in);
+        int sum = 0;
+        while(in.hasNext()) {
+            int n = in.nextInt();
+            int k = in.nextInt();
+            String[] s = new String[k];
+            for (int i = 0; i < k; i++) {
+                s[i] = in.next();
+            }
+            for (int i = 0; i < k; i++) {
+                String[] str = s[i].split(",");
+                int temp = Integer.parseInt(str[str.length - n]);
+                sum += temp;
+            }
+            System.out.println(sum);
+        }
+    }
+}
